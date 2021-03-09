@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="xyz.bczl.flutter_scankit">
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <application>
+        <activity android:name="com.huawei.hms.hmsscankit.ScanKitActivity" />
+    </application>
+</manifest>
