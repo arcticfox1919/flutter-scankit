@@ -6,14 +6,97 @@ A scan code Flutter plugin, which is a Flutter package for [HUAWEI Scan Kit](htt
 - [ ]  iOS
 
 
-## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Example
+
+```dart
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:flutter/services.dart';
+import 'package:flutter_easy_permission/easy_permissions.dart';
+import 'package:flutter_scankit/flutter_scankit.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+const needPermissions = const [
+  Permissions.READ_EXTERNAL_STORAGE,
+  Permissions.CAMERA
+];
+
+class _MyAppState extends State<MyApp> {
+  FlutterScankit scanKit;
+
+  String code = "";
+
+  @override
+  void initState() {
+    super.initState();
+    scanKit = FlutterScankit();
+    scanKit.addResultListen((val) {
+      debugPrint("scanning result:$val");
+      setState(() {
+        code = val??"";
+      });
+    });
+
+    FlutterEasyPermission().addPermissionCallback(
+        onGranted: (requestCode, perms) {
+          startScan();
+        },
+        onDenied: (requestCode, perms, isPermanentlyDenied) {});
+  }
+
+  @override
+  void dispose() {
+    scanKit.dispose();
+    super.dispose();
+  }
+
+  Future<void> startScan() async {
+    try {
+      await scanKit.startScan(scanTypes: [ScanTypes.ALL]);
+    } on PlatformException {}
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(code),
+              SizedBox(height: 32,),
+              ElevatedButton(
+                child: Text("扫一扫"),
+                onPressed: () async {
+                  if (!await FlutterEasyPermission.has(needPermissions)) {
+                    FlutterEasyPermission.request(needPermissions);
+                  } else {
+                    startScan();
+                  }
+                },
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
 

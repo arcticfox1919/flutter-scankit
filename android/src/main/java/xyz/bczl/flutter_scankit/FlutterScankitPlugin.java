@@ -2,6 +2,7 @@ package xyz.bczl.flutter_scankit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -94,18 +95,17 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
     binding.addActivityResultListener((int requestCode, int resultCode, Intent data)->{
       if(requestCode == REQUEST_CODE_SCAN_ONE){
         if (mEvents == null) return true;
+        Log.d("ActivityResult","resultCode="+resultCode);
         if (resultCode != Activity.RESULT_OK || data == null) {
-          mEvents.error(
-                  "101",
-                  "[onActivityResult]: resultCode is not equal to RESULT_OK or data is  null",
-                  null);
+          mEvents.success(null);
+          return true;
         }
 
         HmsScan obj = data.getParcelableExtra(ScanUtil.RESULT);
         if (obj != null) {
           mEvents.success(obj.originalValue);
         }else {
-          mEvents.error("102",
+          mEvents.error("101",
                   "[onActivityResult]: SCAN_RESULT is null",null);
         }
         return true;

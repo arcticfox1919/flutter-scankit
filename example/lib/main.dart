@@ -14,39 +14,44 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-const needPermissions = const [Permissions.READ_EXTERNAL_STORAGE,Permissions.CAMERA];
+const needPermissions = const [
+  Permissions.READ_EXTERNAL_STORAGE,
+  Permissions.CAMERA
+];
 
 class _MyAppState extends State<MyApp> {
+  FlutterScankit scanKit;
 
-  FlutterScankit scankit;
+  String code = "";
 
   @override
   void initState() {
     super.initState();
-    scankit = FlutterScankit();
-    scankit.addResultListen((val) {
+    scanKit = FlutterScankit();
+    scanKit.addResultListen((val) {
       debugPrint("scanning result:$val");
+      setState(() {
+        code = val??"";
+      });
     });
-    FlutterEasyPermission.addPermissionCallback(
-        onGranted: (requestCode,perms){
+
+    FlutterEasyPermission().addPermissionCallback(
+        onGranted: (requestCode, perms) {
           startScan();
         },
-        onDenied: (requestCode,perms,isPermanentlyDenied){
-
-        });
+        onDenied: (requestCode, perms, isPermanentlyDenied) {});
   }
 
   @override
-  void dispose(){
-    scankit.dispose();
+  void dispose() {
+    scanKit.dispose();
     super.dispose();
   }
 
   Future<void> startScan() async {
     try {
-      await scankit.startScan(scanTypes: [ScanTypes.ALL]);
-    } on PlatformException {
-    }
+      await scanKit.startScan(scanTypes: [ScanTypes.ALL]);
+    } on PlatformException {}
   }
 
   @override
@@ -57,15 +62,22 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: ElevatedButton(
-            child: Text("扫一扫"),
-            onPressed: () async{
-              if(!await FlutterEasyPermission.has(needPermissions)){
-                FlutterEasyPermission.request(needPermissions);
-              }else{
-                startScan();
-              }
-            },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(code),
+              SizedBox(height: 32,),
+              ElevatedButton(
+                child: Text("扫一扫"),
+                onPressed: () async {
+                  if (!await FlutterEasyPermission.has(needPermissions)) {
+                    FlutterEasyPermission.request(needPermissions);
+                  } else {
+                    startScan();
+                  }
+                },
+              )
+            ],
           ),
         ),
       ),
