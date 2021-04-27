@@ -22,7 +22,7 @@ A scan code Flutter plugin, which is a Flutter package for [HUAWEI Scan Kit](htt
 #### iOS
 Add the following to `ios/Runner/Info.plist`
 
-```
+```xml
     <key>NSCameraUsageDescription</key>
     <string>Explain to the user here why you need the permission</string>
     <key>NSPhotoLibraryUsageDescription</key>
@@ -51,7 +51,7 @@ Then execute the command to install.
 
 ### Calling APIs
 
-```
+```dart
   void initState() {
     super.initState();
     scanKit = FlutterScankit()
@@ -70,7 +70,7 @@ Then execute the command to install.
 
 Scan the code:
 
-```
+```dart
     // Request if no permission
     if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
           FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
