@@ -3,100 +3,91 @@
 A scan code Flutter plugin, which is a Flutter package for [HUAWEI Scan Kit](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK.
 
 - [x]  Android
-- [ ]  iOS
+- [x]  iOS
 
+## Scanning Barcodes
 
+> ScanKit supports 13 major barcode formats (listed as follows). If your app requires only some of the 13 formats, specify the desired formats to speed up barcode scanning.
+>
+>- 1D barcode formats: EAN-8, EAN-13, UPC-A, UPC-E, Codabar, Code 39, Code 93, Code 128, and ITF-14
+>- 2D barcode formats: QR Code, Data Matrix, PDF417, and Aztec
 
+## Usage
 
+1. Configure Permissions
+2. Handling permission requests
+3. Calling APIs
 
-## Example
+### Configure Permissions
+#### iOS
+Add the following to `ios/Runner/Info.plist`
 
-```dart
-import 'package:flutter/material.dart';
-import 'dart:async';
+```
+    <key>NSCameraUsageDescription</key>
+    <string>Explain to the user here why you need the permission</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Explain to the user here why you need the permission</string>
+```
 
-import 'package:flutter/services.dart';
-import 'package:flutter_easy_permission/easy_permissions.dart';
-import 'package:flutter_scankit/flutter_scankit.dart';
+Note that replacing the content of the <string></string> tag gives the user a reason for needing the permission.
 
-void main() {
-  runApp(MyApp());
-}
+No configuration required for Android platform!
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+### Permission Request
 
-const needPermissions = const [
-  Permissions.READ_EXTERNAL_STORAGE,
-  Permissions.CAMERA
-];
+In Flutter, you need a plugin library for permission handling, here I recommend using another plugin library of mine: [flutter_easy_permission](https://pub.dev/packages/flutter_easy_permission), go [here](https://github.com/arcticfox1919/flutter_easy_permission) for detailed configuration.
 
-class _MyAppState extends State<MyApp> {
-  FlutterScankit scanKit;
+Open the ios/Podfile file and add the following code:
 
-  String code = "";
+```
+target 'Runner' do
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  # Add the library of permissions you need here
+  pod 'LBXPermission/Camera'
+  pod 'LBXPermission/Photo'
+end
+```
+Then execute the command to install.
 
-  @override
+### Calling APIs
+
+```
   void initState() {
     super.initState();
-    scanKit = FlutterScankit();
-    scanKit.addResultListen((val) {
+    scanKit = FlutterScankit()
+	 ..addResultListen((val) {
+	  // Back to the results
       debugPrint("scanning result:$val");
-      setState(() {
-        code = val??"";
-      });
     });
 
     FlutterEasyPermission().addPermissionCallback(
-        onGranted: (requestCode, perms) {
+        onGranted: (requestCode, perms,perm) {
           startScan();
         },
-        onDenied: (requestCode, perms, isPermanentlyDenied) {});
+        onDenied: (requestCode, perms,perm, isPermanent) {});
   }
+```
 
-  @override
-  void dispose() {
-    scanKit.dispose();
-    super.dispose();
-  }
+Scan the code:
 
-  Future<void> startScan() async {
+```
+    // Request if no permission
+    if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
+          FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
+    } else {
+          // Call if you have permission
+          startScan();
+    }
+    
+    
+Future<void> startScan() async {
     try {
       await scanKit.startScan(scanTypes: [ScanTypes.ALL]);
     } on PlatformException {}
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(code),
-              SizedBox(height: 32,),
-              ElevatedButton(
-                child: Text("扫一扫"),
-                onPressed: () async {
-                  if (!await FlutterEasyPermission.has(needPermissions)) {
-                    FlutterEasyPermission.request(needPermissions);
-                  } else {
-                    startScan();
-                  }
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 ```
+
+## Example
+
+For a complete example, please see [here](https://github.com/arcticfox1919/flutter-scankit/blob/main/example/lib/main.dart).
 
