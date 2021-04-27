@@ -34,10 +34,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_easy_permission: c86b9ceee7b07cc0f491d2a2d70067b3af06f34b
-  flutter_scankit: ce8239fafcf6a4d087f86d1ac13f768cca94223b
+  flutter_scankit: 16936d86b3de3f83c122e763f4c24c5da214c78f
   LBXPermission: e7f860ce1280599fc196a8c5dee713cbb81354d4
   ScanKitFrameWork: 0ad578f3db0ef9b64dd0f533d10d10a52ce93c80
 
-PODFILE CHECKSUM: cf689242c0a9fea742b0dcea2aefba88b5a2f03d
+PODFILE CHECKSUM: 6c0ff81f58f376b56aa833533df559fd09456728
 
 COCOAPODS: 1.10.1
