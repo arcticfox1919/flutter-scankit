@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_easy_permission/constants.dart';
 import 'package:flutter_easy_permission/easy_permissions.dart';
 import 'package:flutter_scankit/flutter_scankit.dart';
+
+
 
 void main() {
   runApp(MyApp());
@@ -14,9 +17,14 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-const needPermissions = const [
+const _permissions = const [
   Permissions.READ_EXTERNAL_STORAGE,
   Permissions.CAMERA
+];
+
+const _permissionGroup = const [
+  PermissionGroup.Camera,
+  PermissionGroup.Photos
 ];
 
 class _MyAppState extends State<MyApp> {
@@ -36,10 +44,10 @@ class _MyAppState extends State<MyApp> {
     });
 
     FlutterEasyPermission().addPermissionCallback(
-        onGranted: (requestCode, perms) {
+        onGranted: (requestCode, perms,perm) {
           startScan();
         },
-        onDenied: (requestCode, perms, isPermanentlyDenied) {});
+        onDenied: (requestCode, perms,perm, isPermanent) {});
   }
 
   @override
@@ -68,10 +76,10 @@ class _MyAppState extends State<MyApp> {
               Text(code),
               SizedBox(height: 32,),
               ElevatedButton(
-                child: Text("扫一扫"),
+                child: Text("Scan code"),
                 onPressed: () async {
-                  if (!await FlutterEasyPermission.has(needPermissions)) {
-                    FlutterEasyPermission.request(needPermissions);
+                  if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
+                    FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
                   } else {
                     startScan();
                   }
