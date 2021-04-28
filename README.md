@@ -4,6 +4,8 @@
 
 A scan code Flutter plugin, which is a Flutter package for [HUAWEI ScanKit](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK.The HUAWEI ScanKit is a powerful library that is easy to use and fast to read.
 
+> Scan Kit automatically detects, magnifies, and recognizes barcodes from a distance, and is also able to scan a very small barcode in the same way. It works even in suboptimal situations, such as under dim lighting or when the barcode is reflective, dirty, blurry, or printed on a cylindrical surface. This leads to a high scanning success rate, and an improved user experience.
+
 - [x]  Android
 - [x]  iOS
 
