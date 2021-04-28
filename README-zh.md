@@ -1,6 +1,6 @@
 # flutter_scankit
 
-中文文档 | [English](README-zh.md)
+中文文档 | [English](README.md)
 
 这是一个扫码的Flutter插件，它是[HUAWEI ScanKit](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK的Flutter包。HUAWEI ScanKit 是一个强大的库，使用简单，对于模糊污损码识别率高，识码速度超快。
 
