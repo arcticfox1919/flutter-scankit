@@ -1,6 +1,8 @@
 # flutter_scankit
 
-A scan code Flutter plugin, which is a Flutter package for [HUAWEI Scan Kit](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK.
+[中文文档](README-zh.md) | English
+
+A scan code Flutter plugin, which is a Flutter package for [HUAWEI ScanKit](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK.The HUAWEI ScanKit is a powerful library that is easy to use and fast to read.
 
 - [x]  Android
 - [x]  iOS
@@ -11,6 +13,12 @@ A scan code Flutter plugin, which is a Flutter package for [HUAWEI Scan Kit](htt
 >
 >- 1D barcode formats: EAN-8, EAN-13, UPC-A, UPC-E, Codabar, Code 39, Code 93, Code 128, and ITF-14
 >- 2D barcode formats: QR Code, Data Matrix, PDF417, and Aztec
+
+Support camera scan code and local picture recognition.
+
+
+![](https://github.com/arcticfox1919/ImageHosting/blob/master/ScanScreenshot20210428.gif?raw=true)
+
 
 ## Usage
 
@@ -87,7 +95,9 @@ Future<void> startScan() async {
 }
 ```
 
+For the usage of `FlutterEasyPermission` please check  [here](https://github.com/arcticfox1919/flutter_easy_permission) .
+
 ## Example
 
-For a complete example, please see [here](https://github.com/arcticfox1919/flutter-scankit/blob/main/example/lib/main.dart).
+**For a complete example, please see [here](https://github.com/arcticfox1919/flutter-scankit/blob/main/example/lib/main.dart).**
 
