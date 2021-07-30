@@ -28,7 +28,7 @@ const _permissionGroup = const [
 ];
 
 class _MyAppState extends State<MyApp> {
-  FlutterScankit scanKit;
+  late FlutterScankit scanKit;
 
   String code = "";
 

@@ -11,9 +11,9 @@ class FlutterScankit {
   static const MethodChannel _channel =
   const MethodChannel('xyz.bczl.flutter_scankit/scan');
 
-  StreamSubscription _subscription;
+  StreamSubscription ?_subscription;
 
-  EventChannel _resultChannel;
+  late EventChannel _resultChannel;
 
   FlutterScankit(){
     _resultChannel = EventChannel(_event_channel_name);
@@ -28,7 +28,7 @@ class FlutterScankit {
   /// [scanTypes] 指定扫描的类型，可指定多种，[ScanTypes.ALL]支持所有的,
   /// 其他类型，见 [ScanTypes]
   ///
-  Future<int> startScan({List<ScanTypes> scanTypes}) async {
+  Future<int> startScan({required List<ScanTypes> scanTypes}) async {
 
     final int result = await _channel.invokeMethod(
         'startScan',{"scan_types":_getScanTypesIndex(scanTypes)});
@@ -54,8 +54,7 @@ class FlutterScankit {
   }
 
   void dispose(){
-    _subscription.cancel();
-    _resultChannel = null;
+    _subscription?.cancel();
   }
 
 }
