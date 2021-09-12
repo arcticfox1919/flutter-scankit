@@ -2,7 +2,9 @@ package xyz.bczl.flutter_scankit;
 
 import com.huawei.hms.ml.scan.HmsScan;
 
-public class ScanKitConstants {
+import java.util.ArrayList;
+
+public class ScanKitUtilities {
 
     public static final int[] SCAN_TYPES = {
             HmsScan.ALL_SCAN_TYPE,
@@ -20,4 +22,13 @@ public class ScanKitConstants {
             HmsScan.UPCCODE_E_SCAN_TYPE,
             HmsScan.CODABAR_SCAN_TYPE,
     };
+
+    public static int[] toArray(ArrayList<Integer> scanTypes){
+        int len = scanTypes.size() - 1;
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = ScanKitUtilities.SCAN_TYPES[scanTypes.get(i+1)];
+        }
+        return arr;
+    }
 }

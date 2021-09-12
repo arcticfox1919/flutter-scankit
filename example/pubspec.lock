@@ -65,11 +65,9 @@ packages:
   flutter_easy_permission:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "3486aa7e2ba67533dd46b52e23d4e3525dfb840b"
-      url: "https://github.com/arcticfox1919/flutter_easy_permission.git"
-    source: git
+      name: flutter_easy_permission
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.1.0"
   flutter_scankit:
     dependency: "direct main"
@@ -77,7 +75,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
