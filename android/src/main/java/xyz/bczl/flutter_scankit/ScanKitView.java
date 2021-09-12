@@ -204,7 +204,6 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
     public void onResult(HmsScan[] result) {
         if (result != null && result.length > 0 && result[0] != null
                 && !TextUtils.isEmpty(result[0].getOriginalValue())) {
-            Log.d("ScanKitView","result size "+result.length);
             sendEvent(EVENT_SCAN_RESULT,result[0].getOriginalValue());
         }
     }

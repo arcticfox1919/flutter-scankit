@@ -1,12 +1,8 @@
 #import "FlutterScankitPlugin.h"
 #import <ScanKitFrameWork/ScanKitFrameWork.h>
 #import "QueuingEventSink.h"
-
-#define FormatTypeSize 14
-static uint scanFormatTypes[FormatTypeSize]={
-    ALL, QR_CODE, AZTEC, DATA_MATRIX, PDF_417,CODE_39,
-    CODE_93,CODE_128,EAN_13,EAN_8,ITF,UPC_A,UPC_E,CODABAR,
-};
+#import "FLScanKitView.h"
+#import "FLScanKitUtilities.h"
 
 @interface FlutterScankitPlugin ()<DefaultScanDelegate,FlutterStreamHandler>{
     QueuingEventSink *_eventSink;
@@ -17,12 +13,17 @@ static uint scanFormatTypes[FormatTypeSize]={
 @end
 
 @implementation FlutterScankitPlugin
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"xyz.bczl.flutter_scankit/scan"
             binaryMessenger:[registrar messenger]];
   FlutterScankitPlugin* instance = [[FlutterScankitPlugin alloc] initWithRegistrar:registrar];
   [registrar addMethodCallDelegate:instance channel:channel];
+    
+    FLScanKitViewFactory* factory =
+        [[FLScanKitViewFactory alloc]initWithMessenger:registrar.messenger];
+    [registrar registerViewFactory:factory withId:@"ScanKitWidgetType"];
 }
 
 -(instancetype)initWithRegistrar:(id<FlutterPluginRegistrar>)registrar{
@@ -41,7 +42,7 @@ static uint scanFormatTypes[FormatTypeSize]={
     NSDictionary *args = call.arguments;
     NSArray *scanTypes= args[@"scan_types"];
     
-    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[self getScanFormatType:scanTypes] Photo:FALSE];
+    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:FALSE];
       
     UIViewController *topViewCtrl = [self topViewControler];
     HmsDefaultScanViewController *hmsDefault = [[HmsDefaultScanViewController alloc] initDefaultScanWithFormatType:options];
@@ -55,25 +56,6 @@ static uint scanFormatTypes[FormatTypeSize]={
   } else {
     result(FlutterMethodNotImplemented);
   }
-}
-
--(uint)getScanFormatType:(NSArray *)typeIndex{
-    NSUInteger len = typeIndex.count;
-    NSNumber *item = typeIndex[0];
-    uint ret = 0;
-    if (len == 1 && item.intValue != scanFormatTypes[0]) {
-        return scanFormatTypes[item.intValue];
-    }else if(len == 1 && item.intValue == scanFormatTypes[0]){
-        for (int i = 1; i<FormatTypeSize; i++) {
-            ret |= scanFormatTypes[i];
-        }
-        return ret;
-    }else{
-        for (NSNumber *num in typeIndex) {
-            ret |= scanFormatTypes[num.intValue];
-        }
-        return ret;
-    }
 }
 
 - (void)defaultScanDelegateForDicResult:(NSDictionary *)resultDic{

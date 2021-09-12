@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'flutter_scankit.dart';
 
 typedef ScanKitCallback = void Function(ScanKitController);
+
+const _viewType = 'ScanKitWidgetType';
 
 class ScanKitWidget extends StatelessWidget {
 
@@ -34,14 +37,27 @@ class ScanKitWidget extends StatelessWidget {
     map["format"] = _getFormatIndex(format);
     map["continuouslyScan"] = continuouslyScan;
 
-
-    return AndroidView(
-        onPlatformViewCreated: (id) {
-          callback(ScanKitController());
-        },
-        creationParamsCodec:const StandardMessageCodec(),
-        creationParams: map,
-        viewType: "ScanKitWidgetType");
+    switch(defaultTargetPlatform){
+      case TargetPlatform.android:
+        return AndroidView(
+            onPlatformViewCreated: (id) {
+              callback(ScanKitController());
+            },
+            creationParamsCodec:const StandardMessageCodec(),
+            creationParams: map,
+            viewType: _viewType);
+      case TargetPlatform.iOS:
+        return UiKitView(
+            onPlatformViewCreated: (id) {
+              callback(ScanKitController());
+            },
+            creationParamsCodec:const StandardMessageCodec(),
+            creationParams: map,
+            viewType: _viewType);
+      default:
+        throw UnsupportedError(
+            "Not supported on the current platform!");
+    }
   }
 
   List<int> _getFormatIndex(List<ScanTypes> scanTypes){
