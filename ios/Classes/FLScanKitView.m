@@ -77,8 +77,9 @@
     
     NSArray *box = args[@"boundingBox"];
     if(box){
-        double screenWidth = [UIScreen mainScreen].bounds.size.width;
-        double screenheight = [UIScreen mainScreen].bounds.size.height;
+        CGFloat scale = [UIScreen mainScreen].scale;
+        double screenWidth = [UIScreen mainScreen].bounds.size.width * scale;
+        double screenheight = [UIScreen mainScreen].bounds.size.height * scale;
         
         double left = [box[0] doubleValue];
         double top = [box[1] doubleValue];
@@ -162,6 +163,7 @@
         _imagePickerController.delegate = self;
         _imagePickerController.allowsEditing = NO;
         _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        _imagePickerController.modalPresentationStyle = UIModalPresentationOverFullScreen;
     }
     UIViewController *root = [self topViewControler];
     [root presentViewController:_imagePickerController animated:YES completion:nil];
