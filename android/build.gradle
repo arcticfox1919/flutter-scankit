@@ -37,6 +37,6 @@ android {
 }
 
 dependencies {
-    //scankitSDK
-    implementation 'com.huawei.hms:scan:2.0.0.300'
+    //scankit SDK
+    implementation 'com.huawei.hms:scan:2.1.0.300'
 }

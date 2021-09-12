@@ -65,6 +65,9 @@ class ScanKitWidget extends StatelessWidget {
   }
 }
 
+///
+/// Some APIs see [here](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/scan-remoteview4-0000001050167711)
+///
 class ScanKitController {
 
   late MethodChannel _channel;
@@ -77,6 +80,11 @@ class ScanKitController {
 
   Stream<String> get onResult => _resultStreamController.stream;
 
+  ///
+  /// Android support only
+  ///
+  /// see [here](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/scan-remoteview4-0000001050167711#section7579143914819)
+  ///
   Stream<bool> get onLightVisible => _visibleStreamController.stream;
 
 
@@ -106,10 +114,16 @@ class ScanKitController {
     }
   }
 
+  ///
+  /// Android support only
+  ///
   Future<void> pauseContinuouslyScan() async {
     return await _channel.invokeMethod('pauseContinuouslyScan');
   }
 
+  ///
+  /// Android support only
+  ///
   Future<void> resumeContinuouslyScan() async {
     return await _channel.invokeMethod('resumeContinuouslyScan');
   }

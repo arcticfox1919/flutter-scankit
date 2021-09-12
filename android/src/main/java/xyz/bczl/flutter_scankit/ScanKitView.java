@@ -48,6 +48,7 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
 
     private final static int EVENT_SCAN_RESULT = 0;
     private final static int EVENT_LIGHT_VISIBLE = 1;
+    private ArrayList<Integer> scanTypes = new ArrayList<>(0);
     
     private Activity mActivity;
 
@@ -75,7 +76,17 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
                 if (mEvents == null) return true;
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), data.getData());
-                    HmsScan[] hmsScans = ScanUtil.decodeWithBitmap(mActivity, bitmap, new HmsScanAnalyzerOptions.Creator().setPhotoMode(true).create());
+
+                    HmsScanAnalyzerOptions.Creator creator = new HmsScanAnalyzerOptions.Creator();
+                    creator.setPhotoMode(true);
+
+                    if (scanTypes.size() == 1){
+                        creator.setHmsScanTypes(scanTypes.get(0));
+                    }else {
+                        creator.setHmsScanTypes(scanTypes.get(0),ScanKitUtilities.toArray(scanTypes));
+                    }
+
+                    HmsScan[] hmsScans = ScanUtil.decodeWithBitmap(mActivity, bitmap, creator.create());
                     if (hmsScans != null && hmsScans.length > 0 && hmsScans[0] != null && !TextUtils.isEmpty(hmsScans[0].getOriginalValue())) {
                         sendEvent(EVENT_SCAN_RESULT,hmsScans[0].originalValue);
                     }else {
@@ -99,7 +110,7 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
             builder.setBoundingBox(new Rect(list.get(0),list.get(1),list.get(2),list.get(3)));
         }
 
-        ArrayList<Integer> scanTypes = (ArrayList<Integer>) creationParam.get("format");
+        scanTypes = (ArrayList<Integer>) creationParam.get("format");
 
         if (scanTypes.size() == 1){
             builder.setFormat(scanTypes.get(0));
@@ -142,27 +153,21 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
         switch (event){
             case ON_CREATE:
                 remoteView.onCreate(new Bundle());
-                Log.d("ScanKitView","onCreate");
                 break;
             case ON_START:
                 remoteView.onStart();
-                Log.d("ScanKitView","onStart");
                 break;
             case ON_RESUME:
                 remoteView.onResume();
-                Log.d("ScanKitView","onResume");
                 break;
             case ON_PAUSE:
                 remoteView.onPause();
-                Log.d("ScanKitView","onPause");
                 break;
             case ON_STOP:
                 remoteView.onStop();
-                Log.d("ScanKitView","onStop");
                 break;
             case ON_DESTROY:
                 remoteView.onDestroy();
-                Log.d("ScanKitView","onDestroy");
                 break;
             default:
         }
