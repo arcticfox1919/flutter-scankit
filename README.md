@@ -1,3 +1,8 @@
+## Update
+* Upgrade v1.2, support custom view
+
+------
+
 # flutter_scankit
 
 [中文文档](README-zh.md) | English
@@ -98,6 +103,101 @@ Future<void> startScan() async {
 ```
 
 For the usage of `FlutterEasyPermission` please check  [here](https://github.com/arcticfox1919/flutter_easy_permission) .
+
+## Custom view
+
+Use `ScanKitWidget` as a scan widget, `ScanKitController` for flash switching, picture code recognition and other functions
+
+```dart
+class _CustomizedViewState extends State<CustomizedView> {
+  late ScanKitController _controller;
+
+  final screenWidth = window.physicalSize.width;
+  final screenHeight = window.physicalSize.height;
+
+  @override
+  Widget build(BuildContext context) {
+    var pixelSize = boxSize * window.devicePixelRatio;
+    var left = screenWidth/2 - pixelSize/2;
+    var top = screenHeight/2 - pixelSize/2;
+    var right = screenWidth/2 + pixelSize/2;
+    var bottom = screenHeight/2 + pixelSize/2;
+    var rect = Rect.fromLTRB(left, top, right, bottom);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+	   /// Use ScanKitWidget to implement code scanning with customizable scan page view
+            ScanKitWidget(
+                callback: (controller) {
+                  _controller = controller;
+
+                  controller.onResult.listen((result) {
+                    debugPrint("scanning result:$result");
+
+                    Navigator.of(context).pop(result);
+                  });
+                },
+              continuouslyScan: false,
+              boundingBox: rect),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 28,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        _controller.switchLight();
+                      },
+                      icon: Icon(
+                        Icons.lightbulb_outline_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        _controller.pickPhoto();
+                      },
+                      icon: Icon(
+                        Icons.picture_in_picture_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ))
+                ],
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  border: Border(
+                      left: BorderSide(color: Colors.orangeAccent, width: 2),
+                      right: BorderSide(color: Colors.orangeAccent, width: 2),
+                      top: BorderSide(color: Colors.orangeAccent, width: 2),
+                      bottom: BorderSide(color: Colors.orangeAccent, width: 2)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
 
 ## Example
 
