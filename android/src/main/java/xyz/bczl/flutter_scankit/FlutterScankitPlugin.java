@@ -34,8 +34,11 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
 
   private static final int REQUEST_CODE_SCAN_ONE = 0X01;
 
+  private FlutterPluginBinding mPluginBinding;
+
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    mPluginBinding = flutterPluginBinding;
     mChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.bczl.flutter_scankit/scan");
     mChannel.setMethodCallHandler(this);
     mResultChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.bczl.flutter_scankit/result");
@@ -54,38 +57,30 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("startScan")) {
-      if (mActivity == null) {
-        result.error("100","Activity is null",null);
-        return;
-      }
+    if (mActivity == null) {
+      result.error("100","Activity is null",null);
+      return;
+    }
 
+    if (call.method.equals("startScan")) {
       ArrayList<Integer> scanTypes = call.argument("scan_types");
       HmsScanAnalyzerOptions options;
       if (scanTypes.size() == 1){
         options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(scanTypes.get(0)).create();
       }else {
-        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(scanTypes.get(0),toArray(scanTypes)).create();
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(scanTypes.get(0),ScanKitUtilities.toArray(scanTypes)).create();
       }
       result.success(ScanUtil.startScan(mActivity, REQUEST_CODE_SCAN_ONE, options));
-    } else {
+    }else {
       result.notImplemented();
     }
-  }
-
-  private int[] toArray(ArrayList<Integer> scanTypes){
-    int len = scanTypes.size() - 1;
-    int[] arr = new int[len];
-    for (int i = 0; i < len; i++) {
-      arr[i] = ScanKitConstants.SCAN_TYPES[scanTypes.get(i+1)];
-    }
-    return arr;
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     mChannel.setMethodCallHandler(null);
     mResultChannel.setStreamHandler(null);
+    mPluginBinding = null;
   }
 
   @Override
@@ -112,6 +107,13 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
       }
       return false;
     });
+
+    // register platform view
+    if(mPluginBinding != null){
+      mPluginBinding.getPlatformViewRegistry().registerViewFactory(
+              "ScanKitWidgetType", new ScanKitViewFactory(
+                      mPluginBinding.getBinaryMessenger(),binding));
+    }
   }
 
   @Override
@@ -127,5 +129,6 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
   @Override
   public void onDetachedFromActivity() {
     mActivity = null;
+    
   }
 }

@@ -3,20 +3,20 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-typedef ResultListener = void Function(dynamic);
+typedef ResultListener = void Function(String);
 
 class FlutterScankit {
-  static const _event_channel_name = "xyz.bczl.flutter_scankit/result";
 
   static const MethodChannel _channel =
-  const MethodChannel('xyz.bczl.flutter_scankit/scan');
+    const MethodChannel('xyz.bczl.flutter_scankit/scan');
 
-  StreamSubscription ?_subscription;
+  StreamSubscription ?_resultSubscription;
 
   late EventChannel _resultChannel;
 
+
   FlutterScankit(){
-    _resultChannel = EventChannel(_event_channel_name);
+    _resultChannel = EventChannel('xyz.bczl.flutter_scankit/result');
   }
 
   ///
@@ -49,14 +49,15 @@ class FlutterScankit {
   /// 设置扫码结果回调
   ///
   void addResultListen(ResultListener onListen){
-    _subscription = _resultChannel.receiveBroadcastStream().listen(
+    _resultSubscription = _resultChannel.receiveBroadcastStream().cast<String>().listen(
         onListen,cancelOnError: false);
+
   }
+
 
   void dispose(){
-    _subscription?.cancel();
+    _resultSubscription?.cancel();
   }
-
 }
 
 
