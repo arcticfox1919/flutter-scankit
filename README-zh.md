@@ -1,4 +1,12 @@
+## 更新
+* 升级v1.2，支持自定义视图
+
+------
+
+
 # flutter_scankit
+
+
 
 中文文档 | [English](README.md)
 
@@ -22,7 +30,7 @@
 ![](https://gitee.com/arcticfox1919/ImageHosting/raw/master/img/ScanScreenshot20210428.gif)
 
 
-## 用法
+## 简单用法
 
 1. 配置权限
 2. 处理权限请求
@@ -101,6 +109,102 @@ Future<void> startScan() async {
 ```
 
 关于 `FlutterEasyPermission`的用法，请查看[这里](https://github.com/arcticfox1919/flutter_easy_permission) 。
+
+## 自定义视图
+
+使用`ScanKitWidget`作为扫码控件，`ScanKitController`用于闪光灯切换、图片识码等功能
+
+```dart
+class _CustomizedViewState extends State<CustomizedView> {
+  late ScanKitController _controller;
+
+  final screenWidth = window.physicalSize.width;
+  final screenHeight = window.physicalSize.height;
+
+  @override
+  Widget build(BuildContext context) {
+    var pixelSize = boxSize * window.devicePixelRatio;
+    var left = screenWidth/2 - pixelSize/2;
+    var top = screenHeight/2 - pixelSize/2;
+    var right = screenWidth/2 + pixelSize/2;
+    var bottom = screenHeight/2 + pixelSize/2;
+    var rect = Rect.fromLTRB(left, top, right, bottom);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+	   /// 使用 ScanKitWidget 实现扫码，可自定义扫码页面视图
+            ScanKitWidget(
+                callback: (controller) {
+                  _controller = controller;
+
+                  controller.onResult.listen((result) {
+                    debugPrint("scanning result:$result");
+
+                    Navigator.of(context).pop(result);
+                  });
+                },
+              continuouslyScan: false,
+              boundingBox: rect),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 28,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        _controller.switchLight();
+                      },
+                      icon: Icon(
+                        Icons.lightbulb_outline_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        _controller.pickPhoto();
+                      },
+                      icon: Icon(
+                        Icons.picture_in_picture_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ))
+                ],
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  border: Border(
+                      left: BorderSide(color: Colors.orangeAccent, width: 2),
+                      right: BorderSide(color: Colors.orangeAccent, width: 2),
+                      top: BorderSide(color: Colors.orangeAccent, width: 2),
+                      bottom: BorderSide(color: Colors.orangeAccent, width: 2)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
 
 ## 例子
 
