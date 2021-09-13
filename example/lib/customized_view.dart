@@ -15,6 +15,12 @@ class _CustomizedViewState extends State<CustomizedView> {
 
   final screenWidth = window.physicalSize.width;
   final screenHeight = window.physicalSize.height;
+  
+  @override
+  void dispose(){
+    _controller.dispose();
+   super.dispose(); 
+  }
 
   @override
   Widget build(BuildContext context) {
