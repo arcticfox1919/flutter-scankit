@@ -212,6 +212,16 @@ class _CustomizedViewState extends State<CustomizedView> {
 
 ```
 
+## 博客
+关于插件使用，可以参考我的两篇博客：
+
+
+[《Flutter 最佳扫码插件》](https://arcticfox.blog.csdn.net/article/details/116238958)
+
+
+[《Flutter 最佳扫码插件——自定义视图》](https://arcticfox.blog.csdn.net/article/details/120261000)
+
+
 ## 例子
 
 **一个完整的例子，请看 [这里](https://github.com/arcticfox1919/flutter-scankit/blob/main/example/lib/main.dart)。**
