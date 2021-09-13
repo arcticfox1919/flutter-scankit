@@ -114,6 +114,12 @@ class _CustomizedViewState extends State<CustomizedView> {
 
   final screenWidth = window.physicalSize.width;
   final screenHeight = window.physicalSize.height;
+  
+  @override
+  void dispose(){
+    _controller.dispose();
+   super.dispose(); 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +134,6 @@ class _CustomizedViewState extends State<CustomizedView> {
       body: SafeArea(
         child: Stack(
           children: [
-	   /// Use ScanKitWidget to implement code scanning with customizable scan page view
             ScanKitWidget(
                 callback: (controller) {
                   _controller = controller;
