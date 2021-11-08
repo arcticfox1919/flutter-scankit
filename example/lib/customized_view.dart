@@ -18,7 +18,7 @@ class _CustomizedViewState extends State<CustomizedView> {
   
   @override
   void dispose(){
-    _controller.dispose();
+    // _controller.dispose();
    super.dispose(); 
   }
 

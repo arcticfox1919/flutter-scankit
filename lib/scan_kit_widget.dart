@@ -144,7 +144,7 @@ class ScanKitController {
 
 
   void dispose(){
-      _eventSubscription.cancel();
+      // _eventSubscription.cancel();
   }
 
 }
