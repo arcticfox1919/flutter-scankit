@@ -1,3 +1,6 @@
+## 1.2.1
+- fix issues 21
+
 ## 1.2.0
 * Add Android/iOS platform custom view support
 * Upgrade scankit android SDK to 2.1.0.300
