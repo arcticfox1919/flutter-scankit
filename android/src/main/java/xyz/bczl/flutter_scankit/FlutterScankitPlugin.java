@@ -65,13 +65,13 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
     if (call.method.equals("startScan")) {
       ArrayList<Integer> scanTypes = call.argument("scan_types");
       HmsScanAnalyzerOptions options;
-      if (scanTypes.size() == 1){
-        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(scanTypes.get(0)).create();
-      }else {
-        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(scanTypes.get(0),ScanKitUtilities.toArray(scanTypes)).create();
+      if (scanTypes.size() == 1) {
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.single(scanTypes)).create();
+      } else {
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.first(scanTypes), ScanKitUtilities.toArray(scanTypes)).create();
       }
       result.success(ScanUtil.startScan(mActivity, REQUEST_CODE_SCAN_ONE, options));
-    }else {
+    } else {
       result.notImplemented();
     }
   }

@@ -1,7 +1,6 @@
 name: flutter_scankit
 description: A scan code Flutter plugin, which is a Flutter package for huawei scanning SDK.
 version: 1.2.1
-author:
 homepage: https://github.com/arcticfox1919/flutter-scankit.git
 
 environment:

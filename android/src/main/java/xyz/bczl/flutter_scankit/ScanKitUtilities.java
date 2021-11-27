@@ -31,4 +31,15 @@ public class ScanKitUtilities {
         }
         return arr;
     }
+
+    public static int single(ArrayList<Integer> scanTypes){
+        if (scanTypes.size() == 1){
+            return SCAN_TYPES[scanTypes.get(0)];
+        }
+        return HmsScan.ALL_SCAN_TYPE;
+    }
+
+    public static int first(ArrayList<Integer> scanTypes){
+         return SCAN_TYPES[scanTypes.get(0)];
+    }
 }
