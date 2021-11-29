@@ -1,3 +1,6 @@
+## 1.2.2
+- fix [issues 15](https://github.com/arcticfox1919/flutter-scankit/issues/15)
+
 ## 1.2.1
 - fix issues 21
 
