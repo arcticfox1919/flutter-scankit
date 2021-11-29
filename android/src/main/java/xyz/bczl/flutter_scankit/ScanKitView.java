@@ -113,9 +113,9 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
         scanTypes = (ArrayList<Integer>) creationParam.get("format");
 
         if (scanTypes.size() == 1){
-            builder.setFormat(scanTypes.get(0));
+            builder.setFormat(ScanKitUtilities.single(scanTypes));
         }else {
-            builder.setFormat(scanTypes.get(0),ScanKitUtilities.toArray(scanTypes));
+            builder.setFormat(ScanKitUtilities.first(scanTypes),ScanKitUtilities.toArray(scanTypes));
         }
 
         builder.setContinuouslyScan((boolean) creationParam.get("continuouslyScan"));
