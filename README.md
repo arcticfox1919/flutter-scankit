@@ -1,6 +1,9 @@
 ## Update
 * Upgrade v1.2, support custom view
 
+## Note
+ScanKit iOS SDK does not support armv7, only arm64, so you need to configure it in Xcode, see [here](https://github.com/arcticfox1919/flutter-scankit/issues/13).
+
 ------
 
 # flutter_scankit
