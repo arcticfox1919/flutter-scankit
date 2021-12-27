@@ -2,7 +2,9 @@
 * 升级v1.2，支持自定义视图
 
 ## 注意
+
 ScanKit iOS SDK不支持armv7，只支持arm64，因此你需要在Xcode中配置, 看[这里](https://github.com/arcticfox1919/flutter-scankit/issues/13).
+
 ------
 
 
