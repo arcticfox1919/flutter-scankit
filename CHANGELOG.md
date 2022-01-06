@@ -1,3 +1,8 @@
+
+## 1.2.3
+- Update example dependent library
+- Modify the tutorial
+
 ## 1.2.2
 - fix [issues 15](https://github.com/arcticfox1919/flutter-scankit/issues/15)
 
