@@ -61,8 +61,8 @@ Open the ios/Podfile file and add the following code:
 target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   # Add the library of permissions you need here
-  pod 'LBXPermission/Camera'
-  pod 'LBXPermission/Photo'
+  pod 'EasyPermissionX/Camera'
+  pod 'EasyPermissionX/Photo'
 end
 ```
 Then execute the command to install.
