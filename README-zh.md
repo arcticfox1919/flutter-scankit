@@ -67,8 +67,8 @@ ScanKit iOS SDK不支持armv7，只支持arm64，因此你需要在Xcode中配�
 target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   # Add the library of permissions you need here
-  pod 'LBXPermission/Camera'
-  pod 'LBXPermission/Photo'
+  pod 'EasyPermissionX/Camera'
+  pod 'EasyPermissionX/Photo'
 end
 ```
 
