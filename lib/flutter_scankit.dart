@@ -49,9 +49,8 @@ class FlutterScankit {
   /// 设置扫码结果回调
   ///
   void addResultListen(ResultListener onListen){
-    _resultSubscription = _resultChannel.receiveBroadcastStream().cast<String>().listen(
+    _resultSubscription = _resultChannel.receiveBroadcastStream().where((e) => e is String).cast<String>().listen(
         onListen,cancelOnError: false);
-
   }
 
 
