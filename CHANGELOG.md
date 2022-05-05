@@ -1,3 +1,5 @@
+## 1.2.4
+- fix issues 34
 
 ## 1.2.3
 - Update example dependent library
