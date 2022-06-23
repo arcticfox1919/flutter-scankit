@@ -1,61 +1,81 @@
-## Update
-* Upgrade v1.2, support custom view
 
-## Note
-ScanKit iOS SDK does not support armv7, only arm64, so you need to configure it in Xcode, see [here](https://github.com/arcticfox1919/flutter-scankit/issues/13).
+
+## 更新
+* 升级v1.3,华为sdk iOS版本升至`1.1.0.303`
+* 升级v1.2，支持自定义视图
+
+## 注意
+
+ScanKit iOS SDK不支持armv7，只支持arm64，因此你需要在Xcode中配置, 看[这里](https://github.com/arcticfox1919/flutter-scankit/issues/13).
 
 ------
 
+
 # flutter_hms_scankit
 
-[中文文档](README-zh.md) | English
+这是一个扫码的Flutter插件，它是[HUAWEI ScanKit](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK的Flutter包。HUAWEI ScanKit 是一个强大的库，使用简单，对于模糊污损码识别率高，识码速度超快。
 
-A scan code Flutter plugin, which is a Flutter package for [HUAWEI ScanKit](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/service-introduction-0000001050041994-V5) SDK.The HUAWEI ScanKit is a powerful library that is easy to use and fast to read.
+> 得益于华为在计算机视觉领域能力的积累，Scan Kit可以实现远距离码或小型码的检测和自动放大，同时针对常见复杂扫码场景（如反光、暗光、污损、模糊、柱面）做了针对性识别优化，提升扫码成功率与用户体验。
 
-> Scan Kit automatically detects, magnifies, and recognizes barcodes from a distance, and is also able to scan a very small barcode in the same way. It works even in suboptimal situations, such as under dim lighting or when the barcode is reflective, dirty, blurry, or printed on a cylindrical surface. This leads to a high scanning success rate, and an improved user experience.
+- [x] Android
+- [x] iOS
 
-- [x]  Android
-- [x]  iOS
+## 扫码
 
-## Scanning Barcodes
-
-> ScanKit supports 13 major barcode formats (listed as follows). If your app requires only some of the 13 formats, specify the desired formats to speed up barcode scanning.
+>   Scan Kit支持扫描13种全球主流的码制式。如果您的应用只处理部分特定的码制式，您也可以在接口中指定制式以便加快扫码速度。已支持的码制式：
 >
->- 1D barcode formats: EAN-8, EAN-13, UPC-A, UPC-E, Codabar, Code 39, Code 93, Code 128, and ITF-14
->- 2D barcode formats: QR Code, Data Matrix, PDF417, and Aztec
+>   - 一维码：EAN-8、EAN-13、UPC-A、UPC-E、Codabar、Code 39、Code 93、Code 128、ITF-14
+>   - 二维码：QR Code、Data Matrix、PDF417、Aztec
 
-Support camera scan code and local picture recognition.
-
-
-![](https://github.com/arcticfox1919/ImageHosting/blob/master/ScanScreenshot20210428.gif?raw=true)
+支持相机扫码和本地图片码识别。
 
 
-## Usage
+![](https://gitee.com/arcticfox1919/ImageHosting/raw/master/img/ScanScreenshot20210428.gif)
 
-1. Configure Permissions
-2. Handling permission requests
-3. Calling APIs
 
-### Configure Permissions
+## 简单用法
+
+1. 配置权限
+2. 处理权限请求
+3. 调用API
+
+### 配置权限
+
 #### iOS
-Add the following to `ios/Runner/Info.plist`
+
+将以下内容添加到`ios/Runner/Info.plist`中
 
 ```xml
     <key>NSCameraUsageDescription</key>
-    <string>Explain to the user here why you need the permission</string>
+    <string>在此向用户解释你为什么需要这个权限</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Explain to the user here why you need the permission</string>
+    <string>在此向用户解释你为什么需要这个权限</string>
+```
+将一下内容添加至`ios/Podfile`
+```pod
+    # START
+    target.build_configurations.each do |config|
+    # 华为的扫码哦不支持armv7 不配置这个无法打包运行
+    config.build_settings['ENABLE_BITCODE'] = 'NO'
+    # 权限配置
+    config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+            '$(inherited)',
+        'PERMISSION_CAMERA=1',
+        'PERMISSION_MEDIA_LIBRARY=1',
+        ]
+    end
+    # END
 ```
 
-Note that replacing the content of the <string></string> tag gives the user a reason for needing the permission.
+注意，替换`<string></string>`标签的内容，给用户一个需要该权限的理由。
 
-No configuration required for Android platform!
+安卓平台不需要配置！
 
-### Permission Request
+### 权限请求
 
-In Flutter, you need a plugin library for permission handling, here I recommend using another plugin library of mine: [flutter_easy_permission](https://pub.dev/packages/flutter_easy_permission), go [here](https://github.com/arcticfox1919/flutter_easy_permission) for detailed configuration.
+在Flutter中，你需要一个插件库来处理权限，这里推荐我的另一个插件库：[flutter_easy_permission](https://pub.dev/packages/flutter_easy_permission)，详细配置请看 [这里](https://github.com/arcticfox1919/flutter_easy_permission)。
 
-Open the ios/Podfile file and add the following code:
+打开`ios/Podfile`文件，添加如下配置：
 
 ```
 target 'Runner' do
@@ -65,16 +85,17 @@ target 'Runner' do
   pod 'EasyPermissionX/Photo'
 end
 ```
-Then execute the command to install.
 
-### Calling APIs
+然后执行命令进行安装。
+
+### 调用API
 
 ```dart
   void initState() {
     super.initState();
     scanKit = FlutterScankit()
 	 ..addResultListen((val) {
-	  // Back to the results
+	  // 返回识别结果
       debugPrint("scanning result:$val");
     });
 
@@ -89,11 +110,11 @@ Then execute the command to install.
 Scan the code:
 
 ```dart
-    // Request if no permission
+    // 如果没有权限则请求
     if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
           FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
     } else {
-          // Call if you have permission
+          // 有权限则调用
           startScan();
     }
     
@@ -105,11 +126,11 @@ Future<void> startScan() async {
 }
 ```
 
-For the usage of `FlutterEasyPermission` please check  [here](https://github.com/arcticfox1919/flutter_easy_permission) .
+关于 `FlutterEasyPermission`的用法，请查看[这里](https://github.com/arcticfox1919/flutter_easy_permission) 。
 
-## Custom view
+## 自定义视图
 
-Use `ScanKitWidget` as a scan widget, `ScanKitController` for flash switching, picture code recognition and other functions
+使用`ScanKitWidget`作为扫码控件，`ScanKitController`用于闪光灯切换、图片识码等功能
 
 ```dart
 class _CustomizedViewState extends State<CustomizedView> {
@@ -137,6 +158,7 @@ class _CustomizedViewState extends State<CustomizedView> {
       body: SafeArea(
         child: Stack(
           children: [
+	   /// 使用 ScanKitWidget 实现扫码，可自定义扫码页面视图
             ScanKitWidget(
                 callback: (controller) {
                   _controller = controller;
@@ -205,9 +227,8 @@ class _CustomizedViewState extends State<CustomizedView> {
     );
   }
 }
+
 ```
 
-## Example
-
-**For a complete example, please see [here](https://github.com/arcticfox1919/flutter-scankit/blob/main/example/lib/main.dart).**
+## 此项目原始版本为：https://github.com/arcticfox1919/flutter-scankit
 
