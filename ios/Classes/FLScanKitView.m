@@ -40,7 +40,7 @@
 
 -(void)setupFlutterChannel:(NSObject<FlutterBinaryMessenger>*)messenger{
     FlutterMethodChannel* channel = [FlutterMethodChannel
-        methodChannelWithName:@"xyz.bczl.flutter_hms_scankit/ScanKitWidget"
+        methodChannelWithName:@"xyz.icxl.flutter.hms.scankit/scanKitWidget"
               binaryMessenger:messenger];
     
     __block typeof(self) weakSelf = self;

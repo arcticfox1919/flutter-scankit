@@ -16,7 +16,7 @@
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"xyz.bczl.flutter_hms_scankit/scan"
+      methodChannelWithName:@"xyz.icxl.flutter.hms.scankit/scan"
             binaryMessenger:[registrar messenger]];
   FlutterScankitPlugin* instance = [[FlutterScankitPlugin alloc] initWithRegistrar:registrar];
   [registrar addMethodCallDelegate:instance channel:channel];
