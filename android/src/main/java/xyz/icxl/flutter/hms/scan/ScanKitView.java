@@ -59,7 +59,7 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
         mChannel = new MethodChannel(messenger,"xyz.icxl.flutter.hms.scankit/scanKitWidget");
         mChannel.setMethodCallHandler(this);
 
-        mEvenChannel = new EventChannel(messenger, "xyz.icxl.flutter_hms_scankit/event");
+        mEvenChannel = new EventChannel(messenger, "xyz.icxl.flutter.hms.scankit/event");
         mEvenChannel.setStreamHandler(new EventChannel.StreamHandler() {
             @Override
             public void onListen(Object arguments, EventChannel.EventSink events) {

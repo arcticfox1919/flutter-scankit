@@ -58,7 +58,7 @@
     }];
     
     _eventSink = [[QueuingEventSink alloc]init];
-    _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_hms_scankit/event" binaryMessenger:messenger];
+    _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.icxl.flutter.hms.scankit/event" binaryMessenger:messenger];
     [_eventChannel setStreamHandler:self];
 }
 

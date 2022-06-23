@@ -31,7 +31,7 @@
     if (self) {
         _eventSink = [QueuingEventSink new];
         
-        _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_hms_scankit/result" binaryMessenger:[registrar messenger]];
+        _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.icxl.flutter.hms.scankit/result" binaryMessenger:[registrar messenger]];
         [_eventChannel setStreamHandler:self];
     }
     return self;

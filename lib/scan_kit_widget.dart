@@ -91,7 +91,7 @@ class ScanKitController {
   late StreamSubscription _eventSubscription;
 
   ScanKitController() {
-    var eventChannel = EventChannel('xyz.icxl.flutter_hms_scankit/event');
+    var eventChannel = EventChannel('xyz.icxl.flutter.hms.scankit/event');
 
     _eventSubscription = eventChannel.receiveBroadcastStream()
         .listen(_eventHandler,cancelOnError: false);
