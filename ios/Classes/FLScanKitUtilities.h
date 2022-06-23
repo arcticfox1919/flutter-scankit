@@ -1,6 +1,6 @@
 //
 //  FLScanKitUtilities.h
-//  flutter_scankit
+//  flutter_hms_scankit
 //
 //  Created by Bruce Ying on 2021/9/12.
 //

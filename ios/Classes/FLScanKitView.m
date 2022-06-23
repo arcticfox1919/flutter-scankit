@@ -1,6 +1,6 @@
 //
 //  FLScanKitView.m
-//  flutter_scankit
+//  flutter_hms_scankit
 //
 //  Created by Bruce Ying on 2021/9/12.
 //
@@ -40,7 +40,7 @@
 
 -(void)setupFlutterChannel:(NSObject<FlutterBinaryMessenger>*)messenger{
     FlutterMethodChannel* channel = [FlutterMethodChannel
-        methodChannelWithName:@"xyz.bczl.flutter_scankit/ScanKitWidget"
+        methodChannelWithName:@"xyz.bczl.flutter_hms_scankit/ScanKitWidget"
               binaryMessenger:messenger];
     
     __block typeof(self) weakSelf = self;
@@ -58,7 +58,7 @@
     }];
     
     _eventSink = [[QueuingEventSink alloc]init];
-    _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_scankit/event" binaryMessenger:messenger];
+    _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_hms_scankit/event" binaryMessenger:messenger];
     [_eventChannel setStreamHandler:self];
 }
 

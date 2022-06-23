@@ -1,5 +1,5 @@
-name: flutter_scankit_example
-description: Demonstrates how to use the flutter_scankit plugin.
+name: flutter_hms_scankit_example
+description: Demonstrates how to use the flutter_hms_scankit plugin.
 version: 0.0.1
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_scankit:
+  flutter_hms_scankit:
     # When depending on this package from a real application you should use:
-    #   flutter_scankit: ^x.y.z
+    #   flutter_hms_scankit: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.

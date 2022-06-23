@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_scankit/scan_kit_widget.dart';
+import 'package:flutter_hms_scankit/scan_kit_widget.dart';
 
 class CustomizedView extends StatefulWidget {
   @override

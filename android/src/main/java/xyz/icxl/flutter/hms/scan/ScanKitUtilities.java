@@ -1,4 +1,4 @@
-package xyz.bczl.flutter_scankit;
+package xyz.icxl.flutter.hms.scan;
 
 import com.huawei.hms.ml.scan.HmsScan;
 

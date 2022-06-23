@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_easy_permission/constants.dart';
 import 'package:flutter_easy_permission/easy_permissions.dart';
-import 'package:flutter_scankit/flutter_scankit.dart';
+import 'package:flutter_hms_scankit/flutter_scankit.dart';
 
 
 import 'customized_view.dart';

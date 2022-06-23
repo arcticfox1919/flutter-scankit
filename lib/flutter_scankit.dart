@@ -8,7 +8,7 @@ typedef ResultListener = void Function(String);
 class FlutterScankit {
 
   static const MethodChannel _channel =
-    const MethodChannel('xyz.bczl.flutter_scankit/scan');
+    const MethodChannel('xyz.icxl.flutter.hms.scankit/scan');
 
   StreamSubscription ?_resultSubscription;
 
@@ -16,7 +16,7 @@ class FlutterScankit {
 
 
   FlutterScankit(){
-    _resultChannel = EventChannel('xyz.bczl.flutter_scankit/result');
+    _resultChannel = EventChannel('xyz.icxl.flutter.hms.scankit/result');
   }
 
   ///

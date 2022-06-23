@@ -1,4 +1,4 @@
-package xyz.bczl.flutter_scankit_example;
+package xyz.bczl.flutter_hms_scankit_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 

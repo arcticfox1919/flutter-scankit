@@ -3,9 +3,9 @@ PODS:
   - flutter_easy_permission (0.0.1):
     - Flutter
     - LBXPermission/Base
-  - flutter_scankit (0.0.1):
+  - flutter_hms_scankit (0.0.1):
     - Flutter
-    - ScanKitFrameWork (~> 1.0.2.300)
+    - ScanKitFrameWork (~> 1.1.0.303)
   - LBXPermission/Base (1.1.1)
   - LBXPermission/Camera (1.1.1)
   - LBXPermission/Photo (1.1.1)
@@ -14,7 +14,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_easy_permission (from `.symlinks/plugins/flutter_easy_permission/ios`)
-  - flutter_scankit (from `.symlinks/plugins/flutter_scankit/ios`)
+  - flutter_hms_scankit (from `.symlinks/plugins/flutter_hms_scankit/ios`)
   - LBXPermission/Camera
   - LBXPermission/Photo
 
@@ -28,13 +28,13 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_easy_permission:
     :path: ".symlinks/plugins/flutter_easy_permission/ios"
-  flutter_scankit:
-    :path: ".symlinks/plugins/flutter_scankit/ios"
+  flutter_hms_scankit:
+    :path: ".symlinks/plugins/flutter_hms_scankit/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_easy_permission: c86b9ceee7b07cc0f491d2a2d70067b3af06f34b
-  flutter_scankit: 16936d86b3de3f83c122e763f4c24c5da214c78f
+  flutter_hms_scankit: 16936d86b3de3f83c122e763f4c24c5da214c78f
   LBXPermission: e7f860ce1280599fc196a8c5dee713cbb81354d4
   ScanKitFrameWork: 0ad578f3db0ef9b64dd0f533d10d10a52ce93c80
 

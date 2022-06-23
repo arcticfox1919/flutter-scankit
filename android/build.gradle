@@ -1,4 +1,4 @@
-group 'xyz.bczl.flutter_scankit'
+group 'xyz.icxl.fluter.hms'
 version '1.0'
 
 buildscript {

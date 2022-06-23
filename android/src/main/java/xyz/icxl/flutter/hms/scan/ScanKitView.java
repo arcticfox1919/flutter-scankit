@@ -1,4 +1,4 @@
-package xyz.bczl.flutter_scankit;
+package xyz.icxl.flutter.hms.scan;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,6 +35,7 @@ import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
+import xyz.icxl.flutter.hms.scan.ScanKitUtilities;
 
 public class ScanKitView implements PlatformView, LifecycleEventObserver,
         MethodChannel.MethodCallHandler, OnResultCallback, OnLightVisibleCallBack {
@@ -55,10 +56,10 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
     public ScanKitView(BinaryMessenger messenger, @Nullable Map<String, Object> creationParam, ActivityPluginBinding binding){
         Log.d("ScanKitView","ScanKitView create ...");
 
-        mChannel = new MethodChannel(messenger,"xyz.bczl.flutter_scankit/ScanKitWidget");
+        mChannel = new MethodChannel(messenger,"xyz.icxl.flutter.hms.scankit/scanKitWidget");
         mChannel.setMethodCallHandler(this);
 
-        mEvenChannel = new EventChannel(messenger, "xyz.bczl.flutter_scankit/event");
+        mEvenChannel = new EventChannel(messenger, "xyz.icxl.flutter_hms_scankit/event");
         mEvenChannel.setStreamHandler(new EventChannel.StreamHandler() {
             @Override
             public void onListen(Object arguments, EventChannel.EventSink events) {
@@ -83,7 +84,7 @@ public class ScanKitView implements PlatformView, LifecycleEventObserver,
                     if (scanTypes.size() == 1){
                         creator.setHmsScanTypes(scanTypes.get(0));
                     }else {
-                        creator.setHmsScanTypes(scanTypes.get(0),ScanKitUtilities.toArray(scanTypes));
+                        creator.setHmsScanTypes(scanTypes.get(0), ScanKitUtilities.toArray(scanTypes));
                     }
 
                     HmsScan[] hmsScans = ScanUtil.decodeWithBitmap(mActivity, bitmap, creator.create());

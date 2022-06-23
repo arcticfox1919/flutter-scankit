@@ -1,6 +1,6 @@
-# flutter_scankit_example
+# flutter_hms_scankit_example
 
-Demonstrates how to use the flutter_scankit plugin.
+Demonstrates how to use the flutter_hms_scankit plugin.
 
 ## Getting Started
 

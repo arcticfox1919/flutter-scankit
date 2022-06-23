@@ -1,5 +1,19 @@
 buildscript {
     repositories {
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-aliyun/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-central/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-public/'
+            allowInsecureProtocol = true
+        }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/central/' }
         google()
         jcenter()
     }
@@ -11,6 +25,20 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-aliyun/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-central/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'http://192.168.31.21:8090/repository/maven-public/'
+            allowInsecureProtocol = true
+        }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/central/' }
         google()
         jcenter()
     }

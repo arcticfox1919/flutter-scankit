@@ -6,7 +6,7 @@ ScanKit iOS SDK does not support armv7, only arm64, so you need to configure it 
 
 ------
 
-# flutter_scankit
+# flutter_hms_scankit
 
 [中文文档](README-zh.md) | English
 

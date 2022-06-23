@@ -16,7 +16,7 @@
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"xyz.bczl.flutter_scankit/scan"
+      methodChannelWithName:@"xyz.bczl.flutter_hms_scankit/scan"
             binaryMessenger:[registrar messenger]];
   FlutterScankitPlugin* instance = [[FlutterScankitPlugin alloc] initWithRegistrar:registrar];
   [registrar addMethodCallDelegate:instance channel:channel];
@@ -31,7 +31,7 @@
     if (self) {
         _eventSink = [QueuingEventSink new];
         
-        _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_scankit/result" binaryMessenger:[registrar messenger]];
+        _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_hms_scankit/result" binaryMessenger:[registrar messenger]];
         [_eventChannel setStreamHandler:self];
     }
     return self;

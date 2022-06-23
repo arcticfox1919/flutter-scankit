@@ -1,4 +1,4 @@
-package xyz.bczl.flutter_scankit;
+package xyz.icxl.flutter.hms.scan;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,9 +39,9 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     mPluginBinding = flutterPluginBinding;
-    mChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.bczl.flutter_scankit/scan");
+    mChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.icxl.flutter.hms.scankit/scan");
     mChannel.setMethodCallHandler(this);
-    mResultChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.bczl.flutter_scankit/result");
+    mResultChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "xyz.icxl.flutter.hms.scankit/result");
     mResultChannel.setStreamHandler(new EventChannel.StreamHandler() {
       @Override
       public void onListen(Object arguments, EventChannel.EventSink events) {
@@ -66,9 +66,9 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
       ArrayList<Integer> scanTypes = call.argument("scan_types");
       HmsScanAnalyzerOptions options;
       if (scanTypes.size() == 1) {
-        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.single(scanTypes)).create();
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(xyz.icxl.flutter.hms.scan.ScanKitUtilities.single(scanTypes)).create();
       } else {
-        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.first(scanTypes), ScanKitUtilities.toArray(scanTypes)).create();
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(xyz.icxl.flutter.hms.scan.ScanKitUtilities.first(scanTypes), xyz.icxl.flutter.hms.scan.ScanKitUtilities.toArray(scanTypes)).create();
       }
       result.success(ScanUtil.startScan(mActivity, REQUEST_CODE_SCAN_ONE, options));
     } else {
@@ -111,7 +111,7 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
     // register platform view
     if(mPluginBinding != null){
       mPluginBinding.getPlatformViewRegistry().registerViewFactory(
-              "ScanKitWidgetType", new ScanKitViewFactory(
+              "ScanKitWidgetType", new xyz.icxl.flutter.hms.scan.ScanKitViewFactory(
                       mPluginBinding.getBinaryMessenger(),binding));
     }
   }

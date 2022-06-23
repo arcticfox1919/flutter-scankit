@@ -91,12 +91,12 @@ class ScanKitController {
   late StreamSubscription _eventSubscription;
 
   ScanKitController() {
-    var eventChannel = EventChannel('xyz.bczl.flutter_scankit/event');
+    var eventChannel = EventChannel('xyz.icxl.flutter_hms_scankit/event');
 
     _eventSubscription = eventChannel.receiveBroadcastStream()
         .listen(_eventHandler,cancelOnError: false);
 
-    _channel = const MethodChannel('xyz.bczl.flutter_scankit/ScanKitWidget');
+    _channel = const MethodChannel('xyz.icxl.flutter.hms.scankit/scanKitWidget');
   }
 
   _eventHandler(event){
