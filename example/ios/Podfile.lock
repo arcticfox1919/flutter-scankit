@@ -8,8 +8,8 @@ PODS:
     - Flutter
   - flutter_hms_scankit (0.0.1):
     - Flutter
-    - ScanKitFrameWork (= 1.1.0.303)
-  - ScanKitFrameWork (1.1.0.303)
+    - SGQRCode (= 3.5.1)
+  - SGQRCode (3.5.1)
 
 DEPENDENCIES:
   - EasyPermissionX/Camera
@@ -21,7 +21,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - EasyPermissionX
-    - ScanKitFrameWork
+    - SGQRCode
 
 EXTERNAL SOURCES:
   Flutter:
@@ -35,8 +35,8 @@ SPEC CHECKSUMS:
   EasyPermissionX: ff4c438f6ee80488f873b4cb921e32d982523067
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_easy_permission: c67b480f134ff748c069cac2d645f873de2b7880
-  flutter_hms_scankit: 03c7530f1220e81661f30333dc34e08fa6b549bf
-  ScanKitFrameWork: d9e20ebe14c3cca1dd342a74aa715b36625110df
+  flutter_hms_scankit: e3958b9aed2552bdb8302ee373ce7f50f852cf41
+  SGQRCode: 65d6170ddcf3feecc6e2f3601aac78ad93e56589
 
 PODFILE CHECKSUM: e825ca5660a030ea02f90aef9ad8524bac829eb3
 

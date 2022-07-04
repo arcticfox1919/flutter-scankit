@@ -1,12 +1,13 @@
 
 
 ## 更新
+* 升级v1.4,iOS移除华为统一扫码服务，采用[SGQRCode](https://github.com/kingsic/SGQRCode),Android 依旧采用华为统一扫码服务
 * 升级v1.3,华为sdk iOS版本升至`1.1.0.303`
 * 升级v1.2，支持自定义视图
 
 ## 注意
 
-ScanKit iOS SDK不支持armv7，只支持arm64，因此你需要在Xcode中配置, 看[这里](https://github.com/arcticfox1919/flutter-scankit/issues/13).
+iOS 采用飞华为统一扫码服务
 
 ------
 

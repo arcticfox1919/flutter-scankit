@@ -5,15 +5,11 @@
 //  Created by Bruce Ying on 2021/9/12.
 //
 
-#import <ScanKitFrameWork/ScanKitFrameWork.h>
 #import "FLScanKitView.h"
-#import "FLScanKitUtilities.h"
 #import "QueuingEventSink.h"
 
-
-@interface FLScanKitView ()<CustomizedScanDelegate,
-    UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
-    HmsCustomScanViewController *customScanVC;
+//CustomizedScanDelegate
+@interface FLScanKitView ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>{
     FlutterEventChannel *_eventChannel;
     QueuingEventSink *_eventSink;
     UIImagePickerController *_imagePickerController;
@@ -47,13 +43,13 @@
     [channel setMethodCallHandler:^(FlutterMethodCall *call,
                                        FlutterResult result){
         if ([@"switchLight" isEqualToString:call.method]) {
-            [weakSelf switchLight];
+            //[weakSelf switchLight];
             result(nil);
         }else if([@"pickPhoto" isEqualToString:call.method]){
-            [weakSelf pickPhoto];
+            //[weakSelf pickPhoto];
             result(nil);
         }else if([@"getLightStatus" isEqualToString:call.method]){
-            result([NSNumber numberWithBool:[weakSelf getLightStatus]]);
+            //result([NSNumber numberWithBool:[weakSelf getLightStatus]]);
         }
     }];
     
@@ -66,33 +62,33 @@
     NSDictionary *args = arguments;
     scanTypes = args[@"format"];
     
-    BOOL continuouslyScan = [args[@"continuouslyScan"] boolValue];
-    
-    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:FALSE];
-    
-    customScanVC = [[HmsCustomScanViewController alloc] initCustomizedScanWithFormatType:options];
-    customScanVC.customizedScanDelegate = self;
-    customScanVC.backButtonHidden = true;
-    customScanVC.continuouslyScan = continuouslyScan;
-    
-    NSArray *box = args[@"boundingBox"];
-    if(box){
-        CGFloat scale = [UIScreen mainScreen].scale;
-        double screenWidth = [UIScreen mainScreen].bounds.size.width * scale;
-        double screenheight = [UIScreen mainScreen].bounds.size.height * scale;
-        
-        double left = [box[0] doubleValue];
-        double top = [box[1] doubleValue];
-        double right = [box[2] doubleValue];
-        double bottom = [box[3] doubleValue];
-        customScanVC.cutArea = CGRectMake(
-                                          left,
-                                          top,
-                                          screenWidth - right - left,
-                                          screenheight - bottom - top);
-    }
-    
-    return customScanVC.view;
+//    BOOL continuouslyScan = [args[@"continuouslyScan"] boolValue];
+//
+//    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:FALSE];
+//
+//    customScanVC = [[HmsCustomScanViewController alloc] initCustomizedScanWithFormatType:options];
+//    customScanVC.customizedScanDelegate = self;
+//    customScanVC.backButtonHidden = true;
+//    customScanVC.continuouslyScan = continuouslyScan;
+//
+//    NSArray *box = args[@"boundingBox"];
+//    if(box){
+//        CGFloat scale = [UIScreen mainScreen].scale;
+//        double screenWidth = [UIScreen mainScreen].bounds.size.width * scale;
+//        double screenheight = [UIScreen mainScreen].bounds.size.height * scale;
+//
+//        double left = [box[0] doubleValue];
+//        double top = [box[1] doubleValue];
+//        double right = [box[2] doubleValue];
+//        double bottom = [box[3] doubleValue];
+//        customScanVC.cutArea = CGRectMake(
+//                                          left,
+//                                          top,
+//                                          screenWidth - right - left,
+//                                          screenheight - bottom - top);
+//    }
+//
+    return nil;
 }
 
 - (void)customizedScanDelegateForResult:(NSDictionary *)resultDic{
@@ -133,28 +129,11 @@
 }
 
 - (void)switchLight{
-    AVCaptureDevice *flashLight =
-        [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
-    if ([flashLight isTorchAvailable] &&
-        [flashLight isTorchModeSupported:AVCaptureTorchModeOn]){
-        BOOL success = [flashLight lockForConfiguration:nil];
-        if (success){
-            if ([flashLight isTorchActive]){
-                [flashLight setTorchMode:AVCaptureTorchModeOff];
-            }else{
-                [flashLight setTorchMode:AVCaptureTorchModeOn];
-            }
-            [flashLight unlockForConfiguration];
-        }
-    }
+
 }
 
 -(BOOL)getLightStatus{
-    AVCaptureDevice *flashLight =
-        [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    
-    return [flashLight isTorchActive];
+    return  false;
 }
 
 -(void)pickPhoto{
@@ -169,13 +148,6 @@
     [root presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    NSDictionary *dic = [HmsBitMap bitMapForImage:image withOptions:[[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:true]];
-    
-    [self sendEvent:dic];
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (UIViewController *)topViewControler{
     UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;

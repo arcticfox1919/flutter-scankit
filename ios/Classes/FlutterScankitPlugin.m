@@ -1,10 +1,11 @@
 #import "FlutterScankitPlugin.h"
-#import <ScanKitFrameWork/ScanKitFrameWork.h>
+//#import <ScanKitFrameWork/ScanKitFrameWork.h>
 #import "QueuingEventSink.h"
 #import "FLScanKitView.h"
-#import "FLScanKitUtilities.h"
-
-@interface FlutterScankitPlugin ()<DefaultScanDelegate,FlutterStreamHandler>{
+//#import "FLScanKitUtilities.h"
+#import "ScanViewController.h"
+//DefaultScanDelegate,
+@interface FlutterScankitPlugin ()<FlutterStreamHandler>{
     QueuingEventSink *_eventSink;
     FlutterMethodChannel *_channel;
     FlutterEventChannel *_eventChannel;
@@ -39,39 +40,17 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"startScan" isEqualToString:call.method]) {
-    NSDictionary *args = call.arguments;
-    NSArray *scanTypes= args[@"scan_types"];
-    
-    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:FALSE];
-      
-    UIViewController *topViewCtrl = [self topViewControler];
-    HmsDefaultScanViewController *hmsDefault = [[HmsDefaultScanViewController alloc] initDefaultScanWithFormatType:options];
-    hmsDefault.defaultScanDelegate = self;
-      
-    [topViewCtrl.view addSubview:hmsDefault.view];
-    [topViewCtrl addChildViewController:hmsDefault];
-    [hmsDefault didMoveToParentViewController:topViewCtrl];
-      
-    result([NSNumber numberWithInt:0]);
+      ScanViewController * scanView = [[ScanViewController alloc]init];
+      scanView.modalPresentationStyle =  UIModalPresentationFullScreen;
+      scanView.successResult = ^(NSString * _Nullable result) {
+          [self->_eventSink success:result];
+       } ;
+       [[self topViewControler]presentViewController:scanView animated:YES completion:nil];
   } else {
     result(FlutterMethodNotImplemented);
   }
 }
 
-- (void)defaultScanDelegateForDicResult:(NSDictionary *)resultDic{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *str = [NSString stringWithFormat:@"%@", resultDic[@"text"]];
-        [self->_eventSink success:str];
-      });
-}
-
-- (void)defaultScanImagePickerDelegateForImage:(UIImage *)image{
-    NSDictionary *dic = [HmsBitMap bitMapForImage:image withOptions:[[HmsScanOptions alloc] initWithScanFormatType:ALL Photo:true]];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *str = [NSString stringWithFormat:@"%@", dic[@"text"]];
-        [self->_eventSink success:str];
-  });
-}
 
 - (UIViewController *)topViewControler{
     //获取根控制器
