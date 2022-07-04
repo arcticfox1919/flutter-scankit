@@ -1,3 +1,6 @@
+## 1.4.0
+iOS移除华为统一扫码服务，采用SGQRCode,Android 依旧采用华为统一扫码服务
+
 ## 1.2.4
 - fix issues 34
 
