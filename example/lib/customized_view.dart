@@ -24,12 +24,9 @@ class _CustomizedViewState extends State<CustomizedView> {
 
   @override
   Widget build(BuildContext context) {
-    var pixelSize = boxSize * window.devicePixelRatio;
-    var left = screenWidth/2 - pixelSize/2;
-    var top = screenHeight/2 - pixelSize/2;
-    var right = screenWidth/2 + pixelSize/2;
-    var bottom = screenHeight/2 + pixelSize/2;
-    var rect = Rect.fromLTRB(left, top, right, bottom);
+    var left = screenWidth/2 - boxSize / 2;
+    var top = screenHeight/2 - boxSize / 2;
+    var rect = Rect.fromLTWH(left, top, boxSize, boxSize);
 
     return Scaffold(
       body: SafeArea(

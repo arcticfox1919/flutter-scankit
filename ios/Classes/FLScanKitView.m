@@ -77,19 +77,12 @@
     
     NSArray *box = args[@"boundingBox"];
     if(box){
-        CGFloat scale = [UIScreen mainScreen].scale;
-        double screenWidth = [UIScreen mainScreen].bounds.size.width * scale;
-        double screenheight = [UIScreen mainScreen].bounds.size.height * scale;
-        
-        double left = [box[0] doubleValue];
-        double top = [box[1] doubleValue];
-        double right = [box[2] doubleValue];
-        double bottom = [box[3] doubleValue];
-        customScanVC.cutArea = CGRectMake(
-                                          left,
-                                          top,
-                                          screenWidth - right - left,
-                                          screenheight - bottom - top);
+      double left = [box[0] doubleValue];
+      double top = [box[1] doubleValue];
+      double width = [box[2] doubleValue];
+      double height = [box[3] doubleValue];
+      CGRect rect = CGRectMake(left, top, width, height);
+      customScanVC.cutArea = rect;
     }
     
     return customScanVC.view;
