@@ -2,21 +2,17 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_easy_permission/constants.dart';
 import 'package:flutter_easy_permission/easy_permissions.dart';
 import 'package:flutter_scankit/flutter_scankit.dart';
-
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 import 'customized_view.dart';
-
-
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,8 +20,7 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('ScanKit Example'),
           ),
-          body: Home()
-      ),
+          body: Home()),
     );
   }
 }
@@ -35,10 +30,7 @@ const _permissions = const [
   Permissions.CAMERA
 ];
 
-const _permissionGroup = const [
-  PermissionGroup.Camera,
-  PermissionGroup.Photos
-];
+const _permissionGroup = const [PermissionGroup.Camera, PermissionGroup.Photos];
 
 class Home extends StatefulWidget {
   @override
@@ -63,10 +55,10 @@ class _HomeState extends State<Home> {
     });
 
     FlutterEasyPermission().addPermissionCallback(
-        onGranted: (requestCode, perms,perm) {
-          isCustom ? newPage(context) :startScan();
+        onGranted: (requestCode, perms, perm) {
+          isCustom ? newPage(context) : startScan();
         },
-        onDenied: (requestCode, perms,perm, isPermanent) {});
+        onDenied: (requestCode, perms, perm, isPermanent) {});
   }
 
   @override
@@ -82,11 +74,10 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> newPage(BuildContext context) async {
-    var code = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) {
-          return CustomizedView();
-        }
-    ));
+    var code = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return CustomizedView();
+    }));
 
     setState(() {
       this.code = code ?? "";
@@ -100,13 +91,17 @@ class _HomeState extends State<Home> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(code),
-          SizedBox(height: 32,),
+          SizedBox(
+            height: 32,
+          ),
           ElevatedButton(
             child: Text("Scan code"),
             onPressed: () async {
               isCustom = false;
-              if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
-                FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
+              if (!await FlutterEasyPermission.has(
+                  perms: _permissions, permsGroup: _permissionGroup)) {
+                FlutterEasyPermission.request(
+                    perms: _permissions, permsGroup: _permissionGroup);
               } else {
                 startScan();
               }
@@ -116,10 +111,25 @@ class _HomeState extends State<Home> {
             child: Text("Customized"),
             onPressed: () async {
               isCustom = true;
-              if (!await FlutterEasyPermission.has(perms: _permissions,permsGroup: _permissionGroup)) {
-                FlutterEasyPermission.request(perms: _permissions,permsGroup: _permissionGroup);
+              if (!await FlutterEasyPermission.has(
+                  perms: _permissions, permsGroup: _permissionGroup)) {
+                FlutterEasyPermission.request(
+                    perms: _permissions, permsGroup: _permissionGroup);
               } else {
                 newPage(context);
+              }
+            },
+          ),
+          ElevatedButton(
+            child: Text("ScanImage from flutter"),
+            onPressed: () async {
+              isCustom = false;
+              if (!await FlutterEasyPermission.has(
+                  perms: _permissions, permsGroup: _permissionGroup)) {
+                FlutterEasyPermission.request(
+                    perms: _permissions, permsGroup: _permissionGroup);
+              } else {
+                pickAssetsAndScan();
               }
             },
           )
@@ -127,5 +137,27 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-}
 
+  void pickAssetsAndScan() async {
+    final List<AssetEntity>? result = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: const AssetPickerConfig(
+        maxAssets: 1,
+      ),
+    );
+    if (result != null) {
+      final file = await result.first.file;
+      if (file == null) {
+        throw StateError(
+            'Unable to obtain file of the entity ${result.first.id}.');
+      }
+      FlutterScankit().scanImage(path: file.path, scanTypes: [
+        ScanTypes.ALL
+      ]).then((String? value) => {
+            setState(() {
+              code = value ?? "未识别到";
+            })
+          });
+    }
+  }
+}

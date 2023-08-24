@@ -1,26 +1,37 @@
 PODS:
+  - EasyPermissionX/Base (0.0.2)
+  - EasyPermissionX/Camera (0.0.2)
+  - EasyPermissionX/Photo (0.0.2)
   - Flutter (1.0.0)
   - flutter_easy_permission (0.0.1):
+    - EasyPermissionX/Base
     - Flutter
-    - LBXPermission/Base
   - flutter_scankit (0.0.1):
     - Flutter
     - ScanKitFrameWork (~> 1.0.2.300)
-  - LBXPermission/Base (1.1.1)
-  - LBXPermission/Camera (1.1.1)
-  - LBXPermission/Photo (1.1.1)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - photo_manager (2.0.0):
+    - Flutter
+    - FlutterMacOS
   - ScanKitFrameWork (1.0.2.300)
+  - video_player_avfoundation (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
+  - EasyPermissionX/Camera
+  - EasyPermissionX/Photo
   - Flutter (from `Flutter`)
   - flutter_easy_permission (from `.symlinks/plugins/flutter_easy_permission/ios`)
   - flutter_scankit (from `.symlinks/plugins/flutter_scankit/ios`)
-  - LBXPermission/Camera
-  - LBXPermission/Photo
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
 
 SPEC REPOS:
   trunk:
-    - LBXPermission
+    - EasyPermissionX
     - ScanKitFrameWork
 
 EXTERNAL SOURCES:
@@ -30,14 +41,23 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_easy_permission/ios"
   flutter_scankit:
     :path: ".symlinks/plugins/flutter_scankit/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  photo_manager:
+    :path: ".symlinks/plugins/photo_manager/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_easy_permission: c86b9ceee7b07cc0f491d2a2d70067b3af06f34b
+  EasyPermissionX: ff4c438f6ee80488f873b4cb921e32d982523067
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_easy_permission: c67b480f134ff748c069cac2d645f873de2b7880
   flutter_scankit: 16936d86b3de3f83c122e763f4c24c5da214c78f
-  LBXPermission: e7f860ce1280599fc196a8c5dee713cbb81354d4
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  photo_manager: 4f6810b7dfc4feb03b461ac1a70dacf91fba7604
   ScanKitFrameWork: 0ad578f3db0ef9b64dd0f533d10d10a52ce93c80
+  video_player_avfoundation: 81e49bb3d9fb63dccf9fa0f6d877dc3ddbeac126
 
-PODFILE CHECKSUM: 6c0ff81f58f376b56aa833533df559fd09456728
+PODFILE CHECKSUM: 596c5e485d4ca600a992ffebca8120a4675a95cf
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.12.1

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -6,16 +5,14 @@ import 'package:flutter/services.dart';
 typedef ResultListener = void Function(String);
 
 class FlutterScankit {
-
   static const MethodChannel _channel =
-    const MethodChannel('xyz.bczl.flutter_scankit/scan');
+      const MethodChannel('xyz.bczl.flutter_scankit/scan');
 
-  StreamSubscription ?_resultSubscription;
+  StreamSubscription? _resultSubscription;
 
   late EventChannel _resultChannel;
 
-
-  FlutterScankit(){
+  FlutterScankit() {
     _resultChannel = EventChannel('xyz.bczl.flutter_scankit/result');
   }
 
@@ -29,36 +26,48 @@ class FlutterScankit {
   /// 其他类型，见 [ScanTypes]
   ///
   Future<int> startScan({required List<ScanTypes> scanTypes}) async {
-
     final int result = await _channel.invokeMethod(
-        'startScan',{"scan_types":_getScanTypesIndex(scanTypes)});
+        'startScan', {"scan_types": _getScanTypesIndex(scanTypes)});
     return result;
   }
 
-  static List<int> _getScanTypesIndex(List<ScanTypes> scanTypes){
-    if(scanTypes !=null && scanTypes.isNotEmpty){
-      assert(!(scanTypes.length > 1 && scanTypes.any((e) => e == ScanTypes.ALL)),
-      "The parameter `scanTypes` is wrong, it is not allowed to "
+  static List<int> _getScanTypesIndex(List<ScanTypes> scanTypes) {
+    if (scanTypes.isNotEmpty) {
+      assert(
+          !(scanTypes.length > 1 && scanTypes.any((e) => e == ScanTypes.ALL)),
+          "The parameter `scanTypes` is wrong, it is not allowed to "
           "pass `ScanTypes.ALL` together with other enumerated types");
       return scanTypes.map((e) => e.index).toList();
     }
-    throw Exception("_getScanTypesIndex: parameter 'scanTypes' cannot be null or empty");
+    throw Exception(
+        "_getScanTypesIndex: parameter 'scanTypes' cannot be null or empty");
+  }
+
+  ///
+  /// 从图片扫码
+  ///
+  Future<String?> scanImage(
+      {required String path, required List<ScanTypes> scanTypes}) async {
+    final String? result = await _channel.invokeMethod('scanImage',
+        {"path": path, "scan_types": _getScanTypesIndex(scanTypes)});
+    return result;
   }
 
   ///
   /// 设置扫码结果回调
   ///
-  void addResultListen(ResultListener onListen){
-    _resultSubscription = _resultChannel.receiveBroadcastStream().where((e) => e is String).cast<String>().listen(
-        onListen,cancelOnError: false);
+  void addResultListen(ResultListener onListen) {
+    _resultSubscription = _resultChannel
+        .receiveBroadcastStream()
+        .where((e) => e is String)
+        .cast<String>()
+        .listen(onListen, cancelOnError: false);
   }
 
-
-  void dispose(){
+  void dispose() {
     _resultSubscription?.cancel();
   }
 }
-
 
 enum ScanTypes {
   ALL,

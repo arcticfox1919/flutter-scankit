@@ -5,7 +5,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.github.bumptech.glide:compiler:4.11.0'//flutter_wechat_assets_picker库需要配置AppGlideModule
     }
 }
 

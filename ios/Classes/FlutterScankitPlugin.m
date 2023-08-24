@@ -53,6 +53,16 @@
     [hmsDefault didMoveToParentViewController:topViewCtrl];
       
     result([NSNumber numberWithInt:0]);
+  } else if ([@"scanImage" isEqualToString:call.method]) {
+    NSDictionary *args = call.arguments;
+    NSArray *scanTypes= args[@"scan_types"];
+    NSString *path = args[@"path"];
+    UIImage *image = [UIImage imageWithContentsOfFile:path];
+    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:true];
+    // 获取单码结果
+    NSDictionary *dic = [HmsBitMap bitMapForImage:image withOptions:options];
+    NSString *str = [NSString stringWithFormat:@"%@", dic[@"text"]];
+    result(str);
   } else {
     result(FlutterMethodNotImplemented);
   }

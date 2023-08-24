@@ -2,6 +2,8 @@ package xyz.bczl.flutter_scankit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -71,6 +73,24 @@ public class FlutterScankitPlugin implements FlutterPlugin, MethodCallHandler, A
         options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.first(scanTypes), ScanKitUtilities.toArray(scanTypes)).create();
       }
       result.success(ScanUtil.startScan(mActivity, REQUEST_CODE_SCAN_ONE, options));
+    } else if (call.method.equals("scanImage")) {
+      String path = call.argument("path");
+       ArrayList<Integer> scanTypes = call.argument("scan_types");
+      HmsScanAnalyzerOptions options;
+      if (scanTypes.size() == 1) {
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.single(scanTypes)).create();
+      } else {
+        options = new HmsScanAnalyzerOptions.Creator().setHmsScanTypes(ScanKitUtilities.first(scanTypes), ScanKitUtilities.toArray(scanTypes)).create();
+      }
+
+      Bitmap bitmap = BitmapFactory.decodeFile(path);
+       HmsScan[] hmsScans = ScanUtil.decodeWithBitmap(mActivity, bitmap, options);
+
+      if (hmsScans != null && hmsScans.length > 0) {
+        result.success(hmsScans[0].originalValue);
+      } else {
+        result.success(null);
+      }
     } else {
       result.notImplemented();
     }
