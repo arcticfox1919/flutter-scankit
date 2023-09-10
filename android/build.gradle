@@ -27,16 +27,22 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 24
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+        }
+    }
 }
 
 dependencies {
     //scankit SDK
-    implementation 'com.huawei.hms:scan:2.1.0.300'
+    implementation 'com.huawei.hms:scanplus:2.11.0.300'
 }

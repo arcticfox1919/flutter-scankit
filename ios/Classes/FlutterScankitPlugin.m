@@ -1,98 +1,130 @@
 #import "FlutterScankitPlugin.h"
 #import <ScanKitFrameWork/ScanKitFrameWork.h>
-#import "QueuingEventSink.h"
 #import "FLScanKitView.h"
 #import "FLScanKitUtilities.h"
+#import "ScanKitAPI.g.h"
+#import "FLScanKitDefaultMode.h"
+#import "FLScanKitCustomMode.h"
+#import "FLScanKitBitmapMode.h"
 
-@interface FlutterScankitPlugin ()<DefaultScanDelegate,FlutterStreamHandler>{
-    QueuingEventSink *_eventSink;
-    FlutterMethodChannel *_channel;
-    FlutterEventChannel *_eventChannel;
+@interface FlutterScankitPlugin ()<DefaultScanDelegate,SKScanKitApi>{
     id<FlutterPluginRegistrar> _registrar;
+    
+    NSMutableDictionary<NSNumber *, FLScanKitDefaultMode *> *_defaultModeDict;
+    NSMutableDictionary<NSNumber *, FLScanKitCustomMode *> *_cusModeDict;
+    int _defaultModeId;
 }
+
+@property (nonatomic, readonly) NSMutableDictionary<NSNumber *, FLScanKitCustomMode *> *cusModeDict;
+
 @end
 
 @implementation FlutterScankitPlugin
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"xyz.bczl.flutter_scankit/scan"
-            binaryMessenger:[registrar messenger]];
-  FlutterScankitPlugin* instance = [[FlutterScankitPlugin alloc] initWithRegistrar:registrar];
-  [registrar addMethodCallDelegate:instance channel:channel];
+    FlutterScankitPlugin* instance = [[FlutterScankitPlugin alloc] initWithRegistrar:registrar];
+    SKScanKitApiSetup(registrar.messenger, instance);
     
     FLScanKitViewFactory* factory =
-        [[FLScanKitViewFactory alloc]initWithMessenger:registrar.messenger];
+    [[FLScanKitViewFactory alloc] initWithMessenger:registrar.messenger cusModeCache:instance.cusModeDict];
     [registrar registerViewFactory:factory withId:@"ScanKitWidgetType"];
 }
 
 -(instancetype)initWithRegistrar:(id<FlutterPluginRegistrar>)registrar{
     self = [super init];
     if (self) {
-        _eventSink = [QueuingEventSink new];
-        
-        _eventChannel = [FlutterEventChannel eventChannelWithName:@"xyz.bczl.flutter_scankit/result" binaryMessenger:[registrar messenger]];
-        [_eventChannel setStreamHandler:self];
+        _registrar = registrar;
+        _defaultModeDict = [[NSMutableDictionary alloc] init];
+        _cusModeDict = [[NSMutableDictionary alloc] init];
+        _defaultModeId = 0;
     }
     return self;
 }
 
-- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"startScan" isEqualToString:call.method]) {
-    NSDictionary *args = call.arguments;
-    NSArray *scanTypes= args[@"scan_types"];
-    
-    HmsScanOptions *options = [[HmsScanOptions alloc] initWithScanFormatType:[FLScanKitUtilities getScanFormatType:scanTypes] Photo:FALSE];
-      
-    UIViewController *topViewCtrl = [self topViewControler];
-    HmsDefaultScanViewController *hmsDefault = [[HmsDefaultScanViewController alloc] initDefaultScanWithFormatType:options];
-    hmsDefault.defaultScanDelegate = self;
-      
-    [topViewCtrl.view addSubview:hmsDefault.view];
-    [topViewCtrl addChildViewController:hmsDefault];
-    [hmsDefault didMoveToParentViewController:topViewCtrl];
-      
-    result([NSNumber numberWithInt:0]);
-  } else {
-    result(FlutterMethodNotImplemented);
-  }
+- (void)dealloc {
+    [_defaultModeDict removeAllObjects];
 }
 
-- (void)defaultScanDelegateForDicResult:(NSDictionary *)resultDic{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *str = [NSString stringWithFormat:@"%@", resultDic[@"text"]];
-        [self->_eventSink success:str];
-      });
+- (nullable NSNumber *)createDefaultModeWithError:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    _defaultModeId++;
+    NSNumber *kId = [NSNumber numberWithInt:_defaultModeId];
+    FLScanKitDefaultMode *mode = [[FLScanKitDefaultMode alloc] initWithMessenger:_registrar.messenger withId:kId];
+    [_defaultModeDict setObject:mode forKey:kId];
+    return kId;
 }
 
-- (void)defaultScanImagePickerDelegateForImage:(UIImage *)image{
-    NSDictionary *dic = [HmsBitMap bitMapForImage:image withOptions:[[HmsScanOptions alloc] initWithScanFormatType:ALL Photo:true]];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *str = [NSString stringWithFormat:@"%@", dic[@"text"]];
-        [self->_eventSink success:str];
-  });
-}
 
-- (UIViewController *)topViewControler{
-    //获取根控制器
-    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *parent = root;
-    while ((parent = root.presentedViewController) != nil ) {
-        root = parent;
+- (nullable NSNumber *)startScanDefaultId:(nonnull NSNumber *)defaultId type:(nonnull NSNumber *)type options:(nonnull NSDictionary<NSString *,id> *)options error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitDefaultMode *mode = _defaultModeDict[defaultId];
+    if(mode !=nil){
+        return [mode startScanByType:type options:options];
     }
-    return root;
+    
+    if(error != NULL){
+        *error = [FlutterError errorWithCode:@"100"
+                                     message:@"FLScanKitDefaultMode dose not exist!"
+                                     details:nil];
+    }
+    return [NSNumber numberWithInt:-1];
 }
 
-- (FlutterError* _Nullable)onListenWithArguments:(id _Nullable)arguments
-                                       eventSink:(FlutterEventSink)events{
-    [_eventSink setDelegate:events];
-    return nil;
+- (void)disposeCustomizedModeCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        [_cusModeDict removeObjectForKey:cusId];
+        [mode dispose];
+    }
 }
 
-
-- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments{
-    [_eventSink setDelegate:nil];
-    return nil;
+- (void)disposeDefaultModeDId:(NSNumber *)dId error:(FlutterError *_Nullable *_Nonnull)error {
+    [_defaultModeDict removeObjectForKey:dId];
 }
 
+- (nullable NSDictionary<NSString *, id> *)decodeYUVYuv:(FlutterStandardTypedData *)yuv width:(NSNumber *)width height:(NSNumber *)height options:(NSDictionary<NSString *, id> *)options error:(FlutterError *_Nullable *_Nonnull)error {
+    if(error != NULL){
+        *error = [FlutterError errorWithCode:@"notImplemented"
+                                     message:@"F[decodeYUVYuv] Method not implemented!"
+                                     details:nil];
+    }
+    return [NSDictionary dictionary];
+}
+
+- (nullable NSDictionary<NSString *, id> *)decodeBytes:(FlutterStandardTypedData *)bytes width:(NSNumber *)width height:(NSNumber *)height options:(NSDictionary<NSString *, id> *)options error:(FlutterError *_Nullable *_Nonnull)error{
+    return [FLScanKitBitmapMode decodeBytes:bytes width:width height:height options:options error:error];
+}
+
+- (nullable NSDictionary<NSString *, id> *)decodeBitmapData:(FlutterStandardTypedData *)data options:(NSDictionary<NSString *, id> *)options error:(FlutterError *_Nullable *_Nonnull)error{
+    return [FLScanKitBitmapMode decodeBitmapData:data options:options error:error];
+}
+
+- (nullable FlutterStandardTypedData *)encodeContent:(nonnull NSString *)content width:(nonnull NSNumber *)width height:(nonnull NSNumber *)height options:(nonnull NSDictionary<NSString *,id> *)options error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    return [FLScanKitBitmapMode encodeContent:content width:width height:height options:options error:error];
+}
+
+- (nullable NSNumber *)getLightStatusCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        return [mode getLightStatusAndError:error];
+    }
+    return [NSNumber numberWithBool:FALSE];
+}
+
+- (void)switchLightCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        [mode switchLightAndError:error];
+    }
+}
+
+- (void)pickPhotoCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        [mode pickPhotoAndError:error];
+    }
+}
+
+- (void)pauseContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {}
+
+
+- (void)resumeContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {}
 @end
