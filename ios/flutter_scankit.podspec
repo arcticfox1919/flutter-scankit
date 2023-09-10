@@ -16,7 +16,7 @@ A new Flutter plugin.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'ScanKitFrameWork', '~> 1.0.2.300'
+  s.dependency 'ScanKitFrameWork', '~> 1.1.0.306'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.

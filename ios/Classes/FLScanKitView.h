@@ -7,16 +7,16 @@
 
 #import <Flutter/Flutter.h>
 #import <UIKit/UIKit.h>
-
+#import "FLScanKitCustomMode.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FLScanKitView : NSObject <FlutterPlatformView,FlutterStreamHandler>
+@interface FLScanKitView : NSObject <FlutterPlatformView>
 
 -(instancetype)initWithFrame:(CGRect)frame
-                            viewIdentifier:(int64_t)viewID
-                            arguments:(id _Nullable)args
-    binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+              viewIdentifier:(NSNumber*)viewID
+                cusModeCache:(NSMutableDictionary<NSNumber*, FLScanKitCustomMode*>*)cache
+                   arguments:(id _Nullable)args;
 
 
 - (nonnull UIView *)view;
@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface FLScanKitViewFactory : NSObject <FlutterPlatformViewFactory>
--(instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+-(instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger
+                    cusModeCache:(NSMutableDictionary<NSNumber*, FLScanKitCustomMode*>*)cache;
 @end
 
 NS_ASSUME_NONNULL_END
