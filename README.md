@@ -1,5 +1,39 @@
-# flutter_scankit
+
+- [flutter\_scankit](#flutter_scankit)
+  - [Scanning Barcodes](#scanning-barcodes)
+  - [Usage](#usage)
+    - [Configure Permissions](#configure-permissions)
+      - [iOS](#ios)
+    - [Permission Request](#permission-request)
+    - [Calling APIs](#calling-apis)
+  - [Custom view](#custom-view)
+    - [Full Customization](#full-customization)
+  - [Creating Code Image](#creating-code-image)
+  - [FAQs](#faqs)
+    - [Android](#android)
+      - [Does the Scan SDK support third-party devices?](#does-the-scan-sdk-support-third-party-devices)
+      - [What barcodes can be parsed by the Scan SDK?](#what-barcodes-can-be-parsed-by-the-scan-sdk)
+      - [Are the algorithms of different APIs the same?](#are-the-algorithms-of-different-apis-the-same)
+      - [Are cloud functions involved?](#are-cloud-functions-involved)
+      - [What can I do if a barcode cannot be parsed?](#what-can-i-do-if-a-barcode-cannot-be-parsed)
+      - [When a transaction-related app calls the barcode scanning function, private information such as bank card numbers will be targeted. Is the card number storage secure?](#when-a-transaction-related-app-calls-the-barcode-scanning-function-private-information-such-as-bank-card-numbers-will-be-targeted-is-the-card-number-storage-secure)
+      - [Why does Scan Kit use the network module?](#why-does-scan-kit-use-the-network-module)
+    - [iOS](#ios-1)
+      - [From which version does the Scan SDK support iOS?](#from-which-version-does-the-scan-sdk-support-ios)
+      - [What barcodes can be parsed by the Scan SDK?](#what-barcodes-can-be-parsed-by-the-scan-sdk-1)
+      - [How can I resolve the problem that occurs when I archive and release an iOS app?](#how-can-i-resolve-the-problem-that-occurs-when-i-archive-and-release-an-ios-app)
+      - [How can I resolve the problem when error message "Undefined symbols for architecture armv7" is displayed?](#how-can-i-resolve-the-problem-when-error-message-undefined-symbols-for-architecture-armv7-is-displayed)
+      - [How can I resolve the problem that the simulator still needs to be used for debugging after the simulator architecture is deleted for the iOS system?](#how-can-i-resolve-the-problem-that-the-simulator-still-needs-to-be-used-for-debugging-after-the-simulator-architecture-is-deleted-for-the-ios-system)
+      - [How can I enable the function of automatically managing signing during iOS certificate packaging?](#how-can-i-enable-the-function-of-automatically-managing-signing-during-ios-certificate-packaging)
+  - [Appendix](#appendix)
+    - [Recommended Settings for Barcode Generation](#recommended-settings-for-barcode-generation)
+  - [Example](#example)
+
+
 ------
+
+
+# flutter_scankit
 
 [中文文档](README-zh.md) | English
 
