@@ -51,6 +51,17 @@ class ScanKitDecoder {
     }
   }
 
+  Future<ScanResult> decodeImage(Uint8List bytes) async {
+    var result = await _api.decodeBitmap(bytes, options);
+    if (result.isEmpty) {
+      return ScanResult.empty();
+    } else {
+      return result.containsKey('zoomValue')
+          ? ScanResult.empty()
+          : ScanResult.from(result);
+    }
+  }
+
   Future dispose() async {
     await _resultSc.close();
   }

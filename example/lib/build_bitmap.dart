@@ -9,8 +9,11 @@ class BuildBitmap extends StatefulWidget {
 }
 
 class _BuildBitmapState extends State<BuildBitmap> {
+  final TextEditingController controller = TextEditingController();
+
   ScanKitEncoder encoder = ScanKitEncoder(200, 200, ScanTypes.qRCode,
       backgroundColor: Colors.blue, color: Colors.red,margin: 2);
+
   ImageProvider? _image;
 
   @override
@@ -34,7 +37,9 @@ class _BuildBitmapState extends State<BuildBitmap> {
               const SizedBox(
                 height: 16,
               ),
-              TextField(),
+              TextField(
+                controller: controller,
+              ),
               const SizedBox(
                 height: 16,
               ),
@@ -52,10 +57,12 @@ class _BuildBitmapState extends State<BuildBitmap> {
   }
 
   void generate() async {
-    var bytes = await encoder.encode("hello,world!");
-    final provider = MemoryImage(bytes);
-    setState(() {
-      _image = provider;
-    });
+    if(controller.text.isNotEmpty){
+      var bytes = await encoder.encode(controller.text);
+      final provider = MemoryImage(bytes);
+      setState(() {
+        _image = provider;
+      });
+    }
   }
 }

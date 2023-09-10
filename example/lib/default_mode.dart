@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_permission/flutter_easy_permission.dart';
 import 'package:flutter_scankit/flutter_scankit.dart';
@@ -19,19 +18,20 @@ class _DefaultModeState extends State<DefaultMode> {
   @override
   void initState() {
     super.initState();
-    scanKit = ScanKit(errorCheck: true,photoMode: true);
+    scanKit = ScanKit();
     scanKit!.onResult.listen((val) {
-      debugPrint("scanning result:${val.originalValue}  scanType:${val.scanType}");
+      debugPrint(
+          "scanning result:${val.originalValue}  scanType:${val.scanType}");
       setState(() {
         code = val.originalValue;
       });
     });
 
     FlutterEasyPermission().addPermissionCallback(
-        onGranted: (requestCode, perms,perm) {
+        onGranted: (requestCode, perms, perm) {
           startScan();
         },
-        onDenied: (requestCode, perms,perm, isPermanent) {});
+        onDenied: (requestCode, perms, perm, isPermanent) {});
   }
 
   @override
@@ -42,8 +42,11 @@ class _DefaultModeState extends State<DefaultMode> {
 
   Future<void> startScan() async {
     try {
-      await scanKit?.startScan();
-    } catch(e) {
+      await scanKit?.startScan(
+          scanTypes: ScanTypes.qRCode.bit |
+              ScanTypes.code39.bit |
+              ScanTypes.code128.bit);
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
@@ -57,13 +60,20 @@ class _DefaultModeState extends State<DefaultMode> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(code,maxLines: 2,),
-            const SizedBox(height: 16,),
+            Text(
+              code,
+              maxLines: 2,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             ElevatedButton(
               child: Text("Scan Code"),
               onPressed: () async {
-                if (!await FlutterEasyPermission.has(perms: permissions,permsGroup: permissionGroup)) {
-                  FlutterEasyPermission.request(perms: permissions,permsGroup: permissionGroup);
+                if (!await FlutterEasyPermission.has(
+                    perms: permissions, permsGroup: permissionGroup)) {
+                  FlutterEasyPermission.request(
+                      perms: permissions, permsGroup: permissionGroup);
                 } else {
                   startScan();
                 }

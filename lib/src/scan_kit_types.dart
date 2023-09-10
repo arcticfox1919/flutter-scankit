@@ -17,8 +17,8 @@ class ScanResult {
     return _empty;
   }
 
-  bool isEmpty() => originalValue.isEmpty;
-  bool isNotEmpty() => originalValue.isNotEmpty;
+  bool get isEmpty => originalValue.isEmpty;
+  bool get isNotEmpty => originalValue.isNotEmpty;
 
   @override
   String toString() => '[$scanType] : $originalValue';

@@ -32,7 +32,7 @@ public class ScanKitViewFactory extends PlatformViewFactory {
     @SuppressWarnings("unchecked")
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
-        if (args instanceof ArrayList) {
+        if (args instanceof Map) {
             final Map<String, Object> creationParams = (Map<String, Object>) args;
             ScanKitCustomMode mode = new ScanKitCustomMode(viewId,messenger,creationParams,binding);
             customModeList.put(viewId,mode);

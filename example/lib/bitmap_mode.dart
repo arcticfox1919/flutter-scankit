@@ -36,7 +36,7 @@ class _BitmapModeState extends State<BitmapMode> {
     });
 
     subscription = decoder.onResult.listen((event) async{
-      if (event is ResultEvent && event.value.isNotEmpty()) {
+      if (event is ResultEvent && event.value.isNotEmpty) {
         subscription!.pause();
         await stopScan();
         if (mounted) {

@@ -1,3 +1,10 @@
+## 2.0.0
+
+* Upgrade scankit Android/iOS SDK
+* Refactor the code and fix some bugs
+* New `decodeYUV`, `decodeImage`, `decode` methods for fully customizable sweeps, loading images from gallery or camera plugin sampling
+* New method to generate code image from string
+
 ## 1.2.4
 - fix issues 34
 

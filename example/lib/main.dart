@@ -4,6 +4,7 @@ import 'package:flutter_scankit_example/build_bitmap.dart';
 import 'package:flutter_scankit_example/default_mode.dart';
 
 import 'customized_mode.dart';
+import 'load_image.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,6 +64,16 @@ class _HomeState extends State<Home> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) {
                     return BitmapMode();
+                  }
+              ));
+            },
+          ),
+          ElevatedButton(
+            child: Text("Load Image"),
+            onPressed: () async {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return LoadImage();
                   }
               ));
             },

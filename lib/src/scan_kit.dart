@@ -32,7 +32,6 @@ class ScanKit {
       _subscription = _resultChannel!
           .receiveBroadcastStream()
           .map<ScanResult>((event){
-            print("===========-------------> $event");
             return event == null ? ScanResult.empty() : ScanResult.from(event);
       })
           .listen((event) {
@@ -56,8 +55,7 @@ class ScanKit {
   /// 一维码：EAN-8、EAN-13、UPC-A、UPC-E、Codabar、Code 39、Code 93、Code 128、ITF
   /// 二维码：QR Code、Data Matrix、PDF417、Aztec
   ///
-  /// [scanTypes] 指定扫描的类型，可指定多种，[ScanTypes.ALL]支持所有的,
-  /// 其他类型，见 [ScanTypes]
+  /// [scanTypes] 指定扫描的类型，可指定多种，见 [ScanTypes]
   ///
   Future<int> startScan({int scanTypes = scanTypeAll}) async {
     var id = await _defaultModeId.future;
