@@ -32,8 +32,8 @@ class ScanKitWidget extends StatelessWidget {
       map["boundingBox"] = [
         boundingBox!.left.toInt(),
         boundingBox!.top.toInt(),
-        boundingBox!.right.toInt(),
-        boundingBox!.bottom.toInt()
+        boundingBox!.width.toInt(),
+        boundingBox!.height.toInt()
       ];
     }
 
