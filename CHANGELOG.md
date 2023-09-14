@@ -1,3 +1,6 @@
+## 2.0.1
+* fix [issues 61](https://github.com/arcticfox1919/flutter-scankit/issues/61)
+
 ## 2.0.0
 
 * Upgrade scankit Android/iOS SDK

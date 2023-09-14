@@ -68,7 +68,9 @@ public class ScanKitCustomMode implements LifecycleEventObserver, OnResultCallba
                 try {
                     Bitmap bitmap;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(mActivity.getContentResolver(), data.getData()));
+                        ImageDecoder.Source source = ImageDecoder.createSource(mActivity.getContentResolver(), data.getData());
+                        ImageDecoder.OnHeaderDecodedListener listener = (decoder, info, source1) -> decoder.setMutableRequired(true);
+                        bitmap = ImageDecoder.decodeBitmap(source, listener);
                     } else {
                         bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), data.getData());
                     }
