@@ -1,3 +1,6 @@
+## 2.0.2
+* fix [issues 63](https://github.com/arcticfox1919/flutter-scankit/issues/63)
+
 ## 2.0.1
 * fix [issues 61](https://github.com/arcticfox1919/flutter-scankit/issues/61)
 

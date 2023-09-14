@@ -104,7 +104,11 @@ public class ScanKitCustomMode implements LifecycleEventObserver, OnResultCallba
         if (creationParam.get("boundingBox") instanceof ArrayList) {
             ArrayList<Integer> list = (ArrayList<Integer>) creationParam.get("boundingBox");
             if (list != null) {
-                builder.setBoundingBox(new Rect(list.get(0), list.get(1), list.get(2), list.get(3)));
+                int left = list.get(0);
+                int top = list.get(1);
+                int width = list.get(2);
+                int height = list.get(3);
+                builder.setBoundingBox(new Rect(left, top, left + width, top + height));
             }
         }
 
