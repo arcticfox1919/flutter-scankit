@@ -436,13 +436,6 @@ The Scan SDK integrated in the iOS system does not support the ARMv7 architectur
 #### How can I resolve the problem that the simulator still needs to be used for debugging after the simulator architecture is deleted for the iOS system?
 Integrate the SDK that contains the simulator architecture again. For details, please refer to [Integrating the HMS Core SDK](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides/ios-integrating-sdk-0000001050172400).
 
-#### How can I enable the function of automatically managing signing during iOS certificate packaging?
-
-1. Go to **General** in the Xcode project.
-2. Set **ScanKitFrameWork.framework** to **Embed Without Signing** under Frameworks, Libraries, and Embedded Content, as shown in the figure below.
-
-![Click to enlarge](https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20230905091814.78034034739139013576468579472943:50001231000000:2800:3BEBE11C585B5D09D66ABA75FA24B4379ABD99661A54D48B5B7EFF984FE0BFB8.png?needInitFileName=true?needInitFileName=true)
-
 ## Appendix
 
 ### Recommended Settings for Barcode Generation
