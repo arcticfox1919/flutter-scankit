@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -68,7 +69,9 @@ public class ScanKitCustomMode implements LifecycleEventObserver, OnResultCallba
                 try {
                     Bitmap bitmap;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(mActivity.getContentResolver(), data.getData()));
+                        ImageDecoder.Source source = ImageDecoder.createSource(mActivity.getContentResolver(), data.getData());
+                        ImageDecoder.OnHeaderDecodedListener listener = (decoder, info, source1) -> decoder.setMutableRequired(true);
+                        bitmap = ImageDecoder.decodeBitmap(source, listener);
                     } else {
                         bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), data.getData());
                     }
@@ -102,7 +105,14 @@ public class ScanKitCustomMode implements LifecycleEventObserver, OnResultCallba
         if (creationParam.get("boundingBox") instanceof ArrayList) {
             ArrayList<Integer> list = (ArrayList<Integer>) creationParam.get("boundingBox");
             if (list != null) {
-                builder.setBoundingBox(new Rect(list.get(0), list.get(1), list.get(2), list.get(3)));
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                mActivity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                float density = displayMetrics.density;
+                int left = (int) (list.get(0) * density);
+                int top = (int) (list.get(1) * density);
+                int width = (int) (list.get(2) * density);
+                int height = (int) (list.get(3) * density);
+                builder.setBoundingBox(new Rect(left, top, left + width, top + height));
             }
         }
 

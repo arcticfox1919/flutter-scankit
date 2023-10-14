@@ -165,14 +165,12 @@ class CustomView extends StatefulWidget {
 
 class _CustomViewState extends State<CustomView> {
   ScanKitController _controller = ScanKitController();
-  final screenWidth = window.physicalSize.width;
-  final screenHeight = window.physicalSize.height;
 
   @override
   void initState() {
     _controller.onResult.listen((result) {
       debugPrint(
-          "scanning result:value=${result.originalValue} scanType=${result.scanType}");
+              "scanning result:value=${result.originalValue} scanType=${result.scanType}");
 
       /// Note: Here the pop operation must be delayed.
       Future(() {
@@ -190,53 +188,52 @@ class _CustomViewState extends State<CustomView> {
 
   @override
   Widget build(BuildContext context) {
-    var pixelSize = boxSize * window.devicePixelRatio;
-    var left = screenWidth / 2 - pixelSize / 2;
-    var top = screenHeight / 2 - pixelSize / 2;
-    var right = screenWidth / 2 + pixelSize / 2;
-    var bottom = screenHeight / 2 + pixelSize / 2;
-    var rect = Rect.fromLTRB(left, top, right, bottom);
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+    var left = screenWidth / 2 - boxSize / 2;
+    var top = screenHeight / 2 - boxSize / 2;
+    var rect = Rect.fromLTWH(left, top, boxSize, boxSize);
 
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             ScanKitWidget(
-                controller: _controller,
-                continuouslyScan: false,
-                boundingBox: rect),
+                    controller: _controller,
+                    continuouslyScan: false,
+                    boundingBox: rect),
             Align(
               alignment: Alignment.topCenter,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 28,
-                      )),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 28,
+                          )),
                   IconButton(
-                      onPressed: () {
-                        _controller.switchLight();
-                      },
-                      icon: Icon(
-                        Icons.lightbulb_outline_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      )),
+                          onPressed: () {
+                            _controller.switchLight();
+                          },
+                          icon: Icon(
+                            Icons.lightbulb_outline_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          )),
                   IconButton(
-                      onPressed: () {
-                        _controller.pickPhoto();
-                      },
-                      icon: Icon(
-                        Icons.picture_in_picture_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ))
+                          onPressed: () {
+                            _controller.pickPhoto();
+                          },
+                          icon: Icon(
+                            Icons.picture_in_picture_rounded,
+                            color: Colors.white,
+                            size: 28,
+                          ))
                 ],
               ),
             ),
@@ -247,10 +244,10 @@ class _CustomViewState extends State<CustomView> {
                 height: boxSize,
                 decoration: BoxDecoration(
                   border: Border(
-                      left: BorderSide(color: Colors.orangeAccent, width: 2),
-                      right: BorderSide(color: Colors.orangeAccent, width: 2),
-                      top: BorderSide(color: Colors.orangeAccent, width: 2),
-                      bottom: BorderSide(color: Colors.orangeAccent, width: 2)),
+                          left: BorderSide(color: Colors.orangeAccent, width: 2),
+                          right: BorderSide(color: Colors.orangeAccent, width: 2),
+                          top: BorderSide(color: Colors.orangeAccent, width: 2),
+                          bottom: BorderSide(color: Colors.orangeAccent, width: 2)),
                 ),
               ),
             )

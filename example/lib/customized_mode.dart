@@ -72,9 +72,6 @@ class CustomView extends StatefulWidget {
 class _CustomViewState extends State<CustomView> {
   ScanKitController _controller = ScanKitController();
 
-  final screenWidth = window.physicalSize.width;
-  final screenHeight = window.physicalSize.height;
-
   @override
   void initState() {
     _controller.onResult.listen((result) {
@@ -97,12 +94,11 @@ class _CustomViewState extends State<CustomView> {
 
   @override
   Widget build(BuildContext context) {
-    var pixelSize = boxSize * window.devicePixelRatio;
-    var left = screenWidth / 2 - pixelSize / 2;
-    var top = screenHeight / 2 - pixelSize / 2;
-    var right = screenWidth / 2 + pixelSize / 2;
-    var bottom = screenHeight / 2 + pixelSize / 2;
-    var rect = Rect.fromLTRB(left, top, right, bottom);
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+    var left = screenWidth / 2 - boxSize / 2;
+    var top = screenHeight / 2 - boxSize / 2;
+    var rect = Rect.fromLTWH(left, top, boxSize, boxSize);
 
     return Scaffold(
       body: SafeArea(
