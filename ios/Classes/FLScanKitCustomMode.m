@@ -94,6 +94,10 @@
 }
 
 -(void)sendEvent:(NSDictionary *)resultDic{
+    if(_eventSink == nil){
+        return;
+    }
+
     if (resultDic == nil){
         NSDictionary *dict = @{
             @"event":@0,

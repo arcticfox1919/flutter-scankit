@@ -447,13 +447,6 @@ lipo -info  ScanKitFrameWork # Architectures in the fat file: ScanKitFrameWork a
 
 iOS系统集成统一扫码服务SDK不支持armv7架构，需要在开发工程中去掉armv7。
 
-#### iOS证书打包时，如何开启Automatically manage signing？
-
-1. 在Xcode工程中选择“General”。
-2. 在Frameworks, Libraries, and Embedded Content区域下，将“ScanKitFrameWork.framework”设置为“Embed Without Signing”。如图：
-
-![点击放大](https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20230905091614.76735352420098259201914851290898:50001231000000:2800:668F75C97EA1C9178F42FB3C11406984724DF3B8F2431C79DC78CEA7787791AD.png?needInitFileName=true?needInitFileName=true)
-
 ##  附录
 ### 生成码参数建议
 - 码图颜色和背景建议
