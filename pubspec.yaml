@@ -30,8 +30,6 @@ flutter:
       android:
         package: xyz.bczl.flutter_scankit
         pluginClass: FlutterScanKitPlugin
-      ios:
-        pluginClass: FlutterScankitPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

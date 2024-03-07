@@ -6,8 +6,6 @@ import 'package:pigeon/pigeon.dart';
   dartOptions: DartOptions(),
   javaOut: 'android/src/main/java/xyz/bczl/flutter_scankit/ScanKitAPI.java',
   javaOptions: JavaOptions(package: 'xyz.bczl.flutter_scankit'),
-  objcHeaderOut: 'ios/Classes/ScanKitAPI.g.h',
-  objcSourceOut: 'ios/Classes/ScanKitAPI.g.m',
   // Set this to a unique prefix for your plugin or application, per Objective-C naming conventions.
   objcOptions: ObjcOptions(prefix: 'SK'),
 ))

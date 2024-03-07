@@ -49,14 +49,6 @@ class ScanKitWidget extends StatelessWidget {
             creationParamsCodec: const StandardMessageCodec(),
             creationParams: map,
             viewType: _viewType);
-      case TargetPlatform.iOS:
-        return UiKitView(
-            onPlatformViewCreated: (id) {
-              controller._initCustomMode(id);
-            },
-            creationParamsCodec: const StandardMessageCodec(),
-            creationParams: map,
-            viewType: _viewType);
       default:
         throw UnsupportedError("Not supported on the current platform!");
     }
