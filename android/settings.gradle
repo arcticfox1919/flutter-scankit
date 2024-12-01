@@ -1,1 +1,14 @@
 rootProject.name = 'flutter_scankit'
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven {url 'https://developer.huawei.com/repo/'}
+    }
+}
+
+plugins {
+    id "com.android.application" version "7.4.0" apply false
+}
