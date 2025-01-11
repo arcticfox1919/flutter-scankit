@@ -162,6 +162,7 @@ public class ScanKitCustomMode implements LifecycleEventObserver, OnResultCallba
 
     public void dispose() {
         if (remoteView != null) {
+            remoteView.onPause();
             remoteView.onStop();
             remoteView.onDestroy();
             remoteView = null;
