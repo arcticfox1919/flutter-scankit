@@ -28,6 +28,10 @@ android {
             options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
         }
     }
+
+    if (project.android.hasProperty("namespace")) {
+        namespace 'xyz.bczl.flutter_scankit'
+    }
 }
 
 dependencies {
