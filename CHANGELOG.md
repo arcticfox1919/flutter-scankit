@@ -1,3 +1,6 @@
+## 2.0.5
+* fix [issues 102](https://github.com/arcticfox1919/flutter-scankit/issues/102)
+
 ## 2.0.4
 * Upgrade to com.huawei.hms:scanplus:2.12.0.301 
 * Upgrade android `compileSdkVersion` upgraded to 34
