@@ -123,8 +123,27 @@
     }
 }
 
-- (void)pauseContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {}
+- (void)pauseContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        if (mode.view != nil) {
+            HmsCustomScanViewController *scanVC = (HmsCustomScanViewController *)mode.view.nextResponder;
+            if ([scanVC isKindOfClass:[HmsCustomScanViewController class]]) {
+                [scanVC pauseContinuouslyScan];
+            }
+        }
+    }
+}
 
-
-- (void)resumeContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {}
+- (void)resumeContinuouslyScanCusId:(nonnull NSNumber *)cusId error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    FLScanKitCustomMode *mode = _cusModeDict[cusId];
+    if(mode != nil){
+        if (mode.view != nil) {
+            HmsCustomScanViewController *scanVC = (HmsCustomScanViewController *)mode.view.nextResponder;
+            if ([scanVC isKindOfClass:[HmsCustomScanViewController class]]) {
+                [scanVC resumeContinuouslyScan];
+            }
+        }
+    }
+}
 @end
